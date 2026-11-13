@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oltin Kun Tartibi | Budilnik, Sovg'alar va Tangalar Tizimi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="classic-gold">
+  <!-- Orqa fon nurlanish effektlari -->
+  <div class="gold-ambient-light light-top-left"></div>
+  <div class="gold-ambient-light light-bottom-right"></div>
+
+  <div class="app-container">
+    <!-- Header: Sarlavha, Jonli Soat, Budilnik va Oltin Hamyon -->
+    <header class="luxury-header">
+      <div class="header-top-row">
+        <div class="header-badge">
+          <span class="gold-star">✦</span>
+          <span>MUKAMMAL INTIZOM VA MUKOFOTLAR TIZIMI</span>
+          <span class="gold-star">✦</span>
+        </div>
+
+        <!-- Oltin Hamyon (Tangalar va Sovg'alar) -->
+        <div class="gold-wallet-card" id="openGiftShopBtn" title="Sovg'alar do'konini ochish">
+          <span class="wallet-coin-icon">🪙</span>
+          <div class="wallet-info">
+            <span class="wallet-label">Oltin Tangalar:</span>
+            <span class="wallet-amount" id="userCoinsDisplay">0 🪙</span>
+          </div>
+          <button class="wallet-gift-btn">🎁 Sovg'alar</button>
+        </div>
+      </div>
+
+      <h1 class="main-title">
+        KUN <span class="gold-gradient-text">TARTIBI</span>
+      </h1>
+      <p class="subtitle">Ertalabki badantarbiyadan to kechgacha: vazifalarni bajaring, tangalar to'plang va qimmatbaho sovg'alarga ega bo'ling!</p>
+
+      <!-- Jonli Soat va Budilnik Kartochkasi -->
+      <div class="clock-card">
+        <div class="clock-display" id="liveClock">00:00:00</div>
+        <div class="date-display" id="liveDate">Yuklanmoqda...</div>
+        
+        <div class="clock-bottom-indicators">
+          <div class="live-phase-badge" id="livePhaseIndicator">
+            <span class="pulse-dot"></span>
+            <span id="currentPhaseText">Ayni payt davri aniqlanmoqda...</span>
+          </div>
+
+          <!-- Budilnik holati indikatori -->
+          <div class="alarm-pill-badge" id="quickAlarmPill" title="Budilnik sozlamasini ochish">
+            <span class="alarm-icon-small">⏰</span>
+            <span id="alarmPillStatus">Budilnik: 07:00 (O'chiq)</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Kunlik Oltin Maqsad (Daily Focus Banner) -->
+    <section class="motto-section">
+      <div class="motto-card">
+        <div class="motto-header">
+          <span class="motto-icon">🎯</span>
+          <span class="motto-label">BUGUNGI OLTIN MAQSAD</span>
+          <button class="motto-edit-btn" id="editMottoBtn" title="Maqsadni o'zgartirish">✏️</button>
+        </div>
+        <p class="motto-text" id="dailyMottoText">"Har bir bajarilgan vazifa — yangi oltin tanga va muvaffaqiyat garovidir!"</p>
+      </div>
+    </section>
+
+    <!-- Asosiy Statistika va Tangalar -->
+    <section class="stats-section">
+      <div class="stat-card">
+        <div class="stat-icon">📋</div>
+        <div class="stat-info">
+          <span class="stat-label">Jami rejalar</span>
+          <span class="stat-value" id="totalTasks">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🏋️‍♂️</div>
+        <div class="stat-info">
+          <span class="stat-label">Mashg'ulotlar</span>
+          <span class="stat-value gold-text" id="workoutTasksCount">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✨</div>
+        <div class="stat-info">
+          <span class="stat-label">Bajarildi</span>
+          <span class="stat-value gold-text" id="completedTasks">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card coin-stat-card" onclick="openGiftPanelTab()">
+        <div class="stat-icon coin-bounce">🪙</div>
+        <div class="stat-info">
+          <span class="stat-label">Daromad</span>
+          <span class="stat-value gold-text" id="statCoinsTotal">0 🪙</span>
+        </div>
+      </div>
+
+      <div class="stat-card progress-card">
+        <div class="progress-header">
+          <span class="stat-label">Kunning unumdorligi (Har bir reja = Tangalar)</span>
+          <span class="stat-value gold-text" id="progressPercentage">0%</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         ERTALABDAN KECHGACHA VAQT LENTASI (TIMELINE BAR)
+         ============================================== -->
+    <section class="day-timeline-section">
+      <div class="timeline-bar-card">
+        <div class="timeline-header">
+          <span class="gold-icon">☀️</span>
+          <h3 class="timeline-title">ERTALABDAN TO KECHGACHA KUN DAVRLARI</h3>
+          <span class="timeline-hint">Tanlang va saralang:</span>
+        </div>
+        
+        <div class="timeline-nav" id="timelinePhaseNav">
+          <button class="phase-btn active" data-phase="all">
+            <span class="phase-icon">🌐</span>
+            <span class="phase-name">Butun Kun</span>
+            <span class="phase-time">06:00 - 23:00</span>
+          </button>
+
+          <button class="phase-btn" data-phase="morning_early" id="btn-morning_early">
+            <span class="phase-icon">🌅</span>
+            <span class="phase-name">Tong</span>
+            <span class="phase-time">06:00 - 08:30</span>
+          </button>
+
+          <button class="phase-btn" data-phase="morning" id="btn-morning">
+            <span class="phase-icon">☀️</span>
+            <span class="phase-name">Ertalab</span>
+            <span class="phase-time">08:30 - 12:30</span>
+          </button>
+
+          <button class="phase-btn" data-phase="noon" id="btn-noon">
+            <span class="phase-icon">🍽️</span>
+            <span class="phase-name">Peshin</span>
+            <span class="phase-time">12:30 - 14:30</span>
+          </button>
+
+          <button class="phase-btn" data-phase="afternoon" id="btn-afternoon">
+            <span class="phase-icon">🏋️‍♂️</span>
+            <span class="phase-name">Tushdan Keyin</span>
+            <span class="phase-time">14:30 - 18:00</span>
+          </button>
+
+          <button class="phase-btn" data-phase="evening" id="btn-evening">
+            <span class="phase-icon">🌇</span>
+            <span class="phase-name">Oqshom</span>
+            <span class="phase-time">18:00 - 21:00</span>
+          </button>
+
+          <button class="phase-btn" data-phase="night" id="btn-night">
+            <span class="phase-icon">🌙</span>
+            <span class="phase-name">Kechqurun</span>
+            <span class="phase-time">21:00 - 23:00</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==============================================
+         KENGAYTIRILGAN BOSHQARUV PANELLARI (CONTROL HUB)
+         ============================================== -->
+    <section class="management-section">
+      <div class="gold-card control-hub-card">
+        <div class="card-header hub-header">
+          <h2 class="card-title">
+            <span class="gold-icon">🎛️</span> BOSHQARUV PANELLARI
+          </h2>
+          <span class="gold-tag">Boshqaruv Markazi</span>
+        </div>
+
+        <!-- Boshqaruv panellari tab menyusi -->
+        <div class="hub-tabs">
+          <button class="hub-tab-btn active" data-panel="panel-schedule-flow">
+            <span>🌅</span> Ertalabdan Kechgacha
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-alarm">
+            <span>⏰</span> Soat Budilnigi
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-gifts" id="tabBtnGifts">
+            <span>🎁</span> Sovg'alar & Tangalar
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-workout-timer">
+            <span>⏱️</span> Mashg'ulot Taymeri
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-actions">
+            <span>⚡</span> Tezkor Boshqaruv
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-analytics">
+            <span>📊</span> Tahlil & Sohalar
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-data">
+            <span>💾</span> Eksport & Import
+          </button>
+          <button class="hub-tab-btn" data-panel="panel-settings">
+            <span>⚙️</span> Sozlamalar & Mavzu
+          </button>
+        </div>
+
+        <!-- Panel 0: Ertalabdan Kechgacha Umumiy Reja Ko'rinishi -->
+        <div class="panel-content active" id="panel-schedule-flow">
+          <div class="panel-desc">Ertalabdan kechgacha barcha mashg'ulotlar va muhim faoliyatlarning taqsimoti:</div>
+          <div class="schedule-flow-grid">
+            <div class="flow-card" onclick="filterByPhase('morning_early')">
+              <div class="flow-icon">🌅</div>
+              <div class="flow-info">
+                <strong>Tonggi Mashg'ulot & Quvvat</strong>
+                <span class="flow-time">06:00 - 08:30</span>
+                <p>Uyg'onish, badantarbiya, yugurish, dush va quvvatli nonushta</p>
+              </div>
+            </div>
+
+            <div class="flow-card" onclick="filterByPhase('morning')">
+              <div class="flow-icon">☀️</div>
+              <div class="flow-info">
+                <strong>Ertalabki Asosiy Dars / Ish</strong>
+                <span class="flow-time">08:30 - 12:30</span>
+                <p>Eng diqqat talab qiladigan aqliy mashg'ulotlar, darslar va topshiriqlar</p>
+              </div>
+            </div>
+
+            <div class="flow-card" onclick="filterByPhase('noon')">
+              <div class="flow-icon">🍽️</div>
+              <div class="flow-info">
+                <strong>Tushlik & Qayta Tiklanish</strong>
+                <span class="flow-time">12:30 - 14:30</span>
+                <p>Tushlik taomi, qisqa hordiq, toza havoda sayr va tinchlanish</p>
+              </div>
+            </div>
+
+            <div class="flow-card" onclick="filterByPhase('afternoon')">
+              <div class="flow-icon">🏋️‍♂️</div>
+              <div class="flow-info">
+                <strong>Tushdan Keyingi Mashg'ulot</strong>
+                <span class="flow-time">14:30 - 18:00</span>
+                <p>Sport zali, trenirovka, jismoniy mashqlar, amaliy to'garaklar</p>
+              </div>
+            </div>
+
+            <div class="flow-card" onclick="filterByPhase('evening')">
+              <div class="flow-icon">🌇</div>
+              <div class="flow-info">
+                <strong>Oqshomgi Hordiq & Mutolaa</strong>
+                <span class="flow-time">18:00 - 21:00</span>
+                <p>Kechki engil taom, oila bilan vaqt o'tkazish, kitobxonlik</p>
+              </div>
+            </div>
+
+            <div class="flow-card" onclick="filterByPhase('night')">
+              <div class="flow-icon">🌙</div>
+              <div class="flow-info">
+                <strong>Kechki Xulosa & Uyqu</strong>
+                <span class="flow-time">21:00 - 23:00</span>
+                <p>Kunning sarhisobi, ertangi kunni belgilash va chuqur orom</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- YANGI PANEL 1: SOAT BUDILNIGI (ALARM PANEL) -->
+        <div class="panel-content" id="panel-alarm">
+          <div class="panel-desc">Ertalabki uyg'onish yoki mashg'ulotlar vaqtini o'tkazib yubormaslik uchun aqlli budilnik:</div>
+          <div class="alarm-management-card">
+            <div class="alarm-setup-grid">
+              <div class="alarm-time-picker-box">
+                <label for="alarmTimeInput">⏰ Budilnik Vaqti:</label>
+                <input type="time" id="alarmTimeInput" value="07:00" class="alarm-time-input">
+              </div>
+
+              <div class="alarm-label-box">
+                <label for="alarmLabelInput">📝 Budilnik Eslatmasi:</label>
+                <input type="text" id="alarmLabelInput" value="Ertalabki badantarbiya va mashg'ulot vaqti bo'ldi!" placeholder="Eslatma matni...">
+              </div>
+
+              <div class="alarm-toggle-box">
+                <label>Budilnik Holati:</label>
+                <label class="switch">
+                  <input type="checkbox" id="alarmEnabledToggle">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="alarm-actions">
+              <button class="btn btn-gold" id="saveAlarmBtn">💾 Budilnikni Saqlash</button>
+              <button class="btn btn-secondary" id="testAlarmBtn">🔔 Budilnik Ovozini Sinash</button>
+            </div>
+
+            <div class="alarm-info-banner" id="alarmNextAlertBanner">
+              Budilnik hozirda faol emas. Vaqtni belgilab "Yoqish" kalitini bosing.
+            </div>
+          </div>
+        </div>
+
+        <!-- YANGI PANEL 2: SOVG'ALAR & TANGALAR (GIFTS & COINS SHOP) -->
+        <div class="panel-content" id="panel-gifts">
+          <div class="panel-desc">
+            Har bir vazifani bajarganingizda sizga <strong>oltin tangalar</strong> beriladi. Tangalarni to'plab ajoyib sovg'alar va unvonlarni oching!
+          </div>
+
+          <div class="coins-summary-banner">
+            <div class="coins-balance-large">
+              <span class="big-coin">🪙</span>
+              <div>
+                <strong id="shopCoinsDisplay">0</strong>
+                <span>Oltin Tanga Mavjud</span>
+              </div>
+            </div>
+            <div class="coins-reward-rule">
+              <span>Oddiy reja: <strong>+10 🪙</strong></span>
+              <span>O'rta reja: <strong>+25 🪙</strong></span>
+              <span>Mashg'ulot/Muhim: <strong>+50 🪙</strong></span>
+            </div>
+          </div>
+
+          <div class="gift-chest-grid" id="giftChestsContainer">
+            <!-- Dinamik JS orqali sovg'alar qutisi chiqariladi -->
+          </div>
+        </div>
+
+        <!-- Panel 3: Mashg'ulot va Fokus Taymeri -->
+        <div class="panel-content" id="panel-workout-timer">
+          <div class="panel-desc">Sport mashg'uloti yoki diqqatni jamlash (Deep Work) uchun maxsus oltin taymer:</div>
+          <div class="timer-container">
+            <div class="timer-display-circle">
+              <div class="timer-time" id="timerDisplay">25:00</div>
+              <div class="timer-label" id="timerStatusLabel">Mashg'ulotga tayyormisiz?</div>
+            </div>
+
+            <div class="timer-presets">
+              <button class="timer-preset-btn" data-minutes="15">15 daq (Badantarbiya)</button>
+              <button class="timer-preset-btn active" data-minutes="25">25 daq (Fokus)</button>
+              <button class="timer-preset-btn" data-minutes="30">30 daq (Sport Mashg'uloti)</button>
+              <button class="timer-preset-btn" data-minutes="45">45 daq (Katta Mashg'ulot)</button>
+            </div>
+
+            <div class="timer-controls">
+              <button class="btn btn-gold" id="startTimerBtn">▶️ Boshlash</button>
+              <button class="btn btn-secondary" id="pauseTimerBtn">⏸️ To'xtatish</button>
+              <button class="btn btn-outline" id="resetTimerBtn">🔄 Qayta O'rnatish</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: Tezkor Boshqaruv Amallari -->
+        <div class="panel-content" id="panel-actions">
+          <div class="panel-desc">Rejalarni ommaviy boshqarish va tartiblash amallari:</div>
+          <div class="action-grid">
+            <button class="hub-action-btn" id="markAllDoneBtn">
+              <span class="action-emoji">✅</span>
+              <div class="action-details">
+                <strong>Barchasini Bajarildi Qilish</strong>
+                <small>Barcha rejalarni yakunlangan deb belgilash</small>
+              </div>
+            </button>
+
+            <button class="hub-action-btn" id="resetAllTasksBtn">
+              <span class="action-emoji">🔄</span>
+              <div class="action-details">
+                <strong>Yangi Kun Boshlash</strong>
+                <small>Barchasini kutilmoqda holatiga qaytarish</small>
+              </div>
+            </button>
+
+            <button class="hub-action-btn" id="sortByTimeBtn">
+              <span class="action-emoji">⏰</span>
+              <div class="action-details">
+                <strong>Ertalabdan Kechgacha Saralash</strong>
+                <small>Tongdan kechgacha tartib bilan terish</small>
+              </div>
+            </button>
+
+            <button class="hub-action-btn" id="sortByPriorityBtn">
+              <span class="action-emoji">💎</span>
+              <div class="action-details">
+                <strong>Muhimlik Bo'yicha Saralash</strong>
+                <small>Yuqori ustuvorlikdagi vazifalarni tepaga olish</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel 5: Tahlil va Sohalar statistikasi -->
+        <div class="panel-content" id="panel-analytics">
+          <div class="panel-desc">Kun tartibining mashg'ulotlar va boshqa sohalar bo'yicha taqsimlanishi:</div>
+          <div class="category-analytics-grid" id="categoryAnalyticsContainer">
+            <!-- Dinamik JS orqali toifalar statistikasi chiziladi -->
+          </div>
+        </div>
+
+        <!-- Panel 6: Eksport, Import va Chop etish -->
+        <div class="panel-content" id="panel-data">
+          <div class="panel-desc">Ma'lumotlarni saqlash, zaxiralash va qog'ozga chop etish:</div>
+          <div class="action-grid">
+            <button class="hub-action-btn" id="exportJsonBtn">
+              <span class="action-emoji">📥</span>
+              <div class="action-details">
+                <strong>Jadvalni Yuklab Olish (JSON)</strong>
+                <small>Rejalarni fayl sifatida saqlab qo'yish</small>
+              </div>
+            </button>
+
+            <button class="hub-action-btn" id="importJsonTriggerBtn">
+              <span class="action-emoji">📤</span>
+              <div class="action-details">
+                <strong>Jadvalni Tiklash (Import)</strong>
+                <small>Avval saqlangan fayldan yuklash</small>
+              </div>
+            </button>
+            <input type="file" id="importJsonInput" accept=".json" style="display: none;">
+
+            <button class="hub-action-btn" id="printScheduleBtn">
+              <span class="action-emoji">🖨️</span>
+              <div class="action-details">
+                <strong>Kun Tartibini Chop Etish (PDF)</strong>
+                <small>Chiroyli shablon ko'rinishida chiqarish</small>
+              </div>
+            </button>
+
+            <button class="hub-action-btn danger-hover" id="clearAllHubBtn">
+              <span class="action-emoji">🗑️</span>
+              <div class="action-details">
+                <strong>To'liq Tozalash</strong>
+                <small>Hamma vazifalarni butunlay o'chirish</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Panel 7: Sozlamalar va Rang mavzulari -->
+        <div class="panel-content" id="panel-settings">
+          <div class="panel-desc">Dastur ko'rinishi, budilnik va tangalar sozlamalarini boshqaring:</div>
+          
+          <div class="settings-grid">
+            <!-- Mavzular -->
+            <div class="setting-item">
+              <div class="setting-label">
+                <strong>🎨 Oltin Dizayn Uslubi:</strong>
+                <small>Oltin rangining o'zingizga yoqqan turini tanlang</small>
+              </div>
+              <div class="theme-picker">
+                <button class="theme-btn active" data-set-theme="classic-gold" title="Klassik Qirollik Oltini">
+                  <span class="theme-circle theme-classic"></span> Klassik Oltin
+                </button>
+                <button class="theme-btn" data-set-theme="obsidian-gold" title="Qora va To'q Oltin">
+                  <span class="theme-circle theme-obsidian"></span> Qora Oltin
+                </button>
+                <button class="theme-btn" data-set-theme="rose-gold" title="Pushti Oltin">
+                  <span class="theme-circle theme-rose"></span> Pushti Oltin
+                </button>
+                <button class="theme-btn" data-set-theme="emerald-gold" title="Zumrad va Oltin">
+                  <span class="theme-circle theme-emerald"></span> Zumrad Oltin
+                </button>
+              </div>
+            </div>
+
+            <!-- Tovush effekti -->
+            <div class="setting-item toggle-row">
+              <div class="setting-label">
+                <strong>🔔 Bajarilganda Oltin Tovush:</strong>
+                <small>Reja bajarilganda va tanga berilganda yoqimli jarangdor ovoz yangraydi</small>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="soundToggle" checked>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Tangalarni qayta tiklash -->
+            <div class="setting-item toggle-row">
+              <div class="setting-label">
+                <strong>🪙 Oltin Tangalar Balansi:</strong>
+                <small>Sinov uchun tanga qo'shish yoki balansni tozalash</small>
+              </div>
+              <div class="setting-actions">
+                <button class="btn btn-outline" id="addBonusCoinsBtn">+50 Bonus Tanga</button>
+                <button class="btn btn-outline" id="resetCoinsBtn">Balansni 0 qilish</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Yangi reja yoki mashg'ulot qo'shish formasi -->
+    <section class="form-section">
+      <div class="gold-card form-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="gold-icon">✍️</span> Yangi Mashg'ulot yoki Reja Qo'shish
+          </h2>
+          <span class="gold-tag">Oltin Vaqt & Tangalar</span>
+        </div>
+
+        <form id="routineForm" class="routine-form">
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="taskTime">
+                <span class="label-icon">⏰</span> Vaqt oralig'i:
+              </label>
+              <input 
+                type="text" 
+                id="taskTime" 
+                placeholder="Masalan: 07:00 - 08:00" 
+                required
+                autocomplete="off"
+              >
+            </div>
+
+            <div class="input-group">
+              <label for="taskDayPhase">
+                <span class="label-icon">🌅</span> Kun davri:
+              </label>
+              <select id="taskDayPhase">
+                <option value="morning_early">🌅 Tong (06:00 - 08:30)</option>
+                <option value="morning">☀️ Ertalab (08:30 - 12:30)</option>
+                <option value="noon">🍽️ Peshin (12:30 - 14:30)</option>
+                <option value="afternoon">🏋️‍♂️ Tushdan keyin (14:30 - 18:00)</option>
+                <option value="evening">🌇 Oqshom (18:00 - 21:00)</option>
+                <option value="night">🌙 Kechqurun (21:00 - 23:00)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="taskCategory">
+                <span class="label-icon">🏷️</span> Mashg'ulot / Toifa:
+              </label>
+              <select id="taskCategory">
+                <option value="workout">🏋️‍♂️ Jismoniy Mashg'ulot / Sport (+50 🪙)</option>
+                <option value="study">📚 Dars / Aqliy Mashg'ulot (+50 🪙)</option>
+                <option value="work">💼 Ish va Loyihalar (+25 🪙)</option>
+                <option value="meal">🍽️ Nonushta / Tushlik / Taom (+10 🪙)</option>
+                <option value="ibodat">🤲 Ma'naviyat va Ibodat (+25 🪙)</option>
+                <option value="rest">☕ Hordiq va Dam olish (+10 🪙)</option>
+                <option value="personal">🌟 Shaxsiy rivojlanish (+25 🪙)</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="taskPriority">
+                <span class="label-icon">💎</span> Muhimlik darajasi:
+              </label>
+              <select id="taskPriority">
+                <option value="high">🔴 Juda muhim (Katta Tanga)</option>
+                <option value="medium" selected>🟡 O'rta darajada</option>
+                <option value="low">🟢 Oddiy reja</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="input-group full-width">
+            <label for="taskTitle">
+              <span class="label-icon">📝</span> Mashg'ulot / Reja nomi:
+            </label>
+            <input 
+              type="text" 
+              id="taskTitle" 
+              placeholder="Masalan: Yugurish va badantarbiya, Dasturlash darsi, Tushlik..." 
+              required
+              autocomplete="off"
+            >
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-gold" id="submitBtn">
+              <span class="btn-icon">➕</span> Rejani Qo'shish
+            </button>
+            <button type="button" class="btn btn-secondary" id="resetDefaultsBtn" title="Boshlang'ich mukammal kun tartibini tiklash">
+              <span class="btn-icon">⚡</span> Namuna: Ertalabdan Kechgacha
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Filtrlar, Qidiruv va Toifa tanlash paneli -->
+    <section class="controls-section">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Mashg'ulot yoki reja qidirish...">
+      </div>
+
+      <!-- Turlar bo'yicha tezkor filtr -->
+      <div class="type-filter-tabs">
+        <button class="type-btn active" data-type-filter="all">Barchasi</button>
+        <button class="type-btn" data-type-filter="workout">🏋️ Mashg'ulotlar</button>
+        <button class="type-btn" data-type-filter="others">📝 Boshqa ishlar</button>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="tab-btn active" data-filter="all">Barchasi</button>
+        <button class="tab-btn" data-filter="pending">Kutilmoqda</button>
+        <button class="tab-btn" data-filter="completed">Bajarilgan</button>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-outline" id="clearAllBtn" title="Barcha rejalarni tozalash">
+          🗑️ Tozalash
+        </button>
+      </div>
+    </section>
+
+    <!-- Kun tartibi jadvali/ro'yxati -->
+    <main class="schedule-section">
+      <div class="schedule-header">
+        <h2 class="section-title">Ertalabdan Kechgacha Rejalar Ro'yxati</h2>
+        <span class="counter-badge" id="listCounter">0 ta vazifa</span>
+      </div>
+
+      <div id="routineList" class="routine-list">
+        <!-- Rejalar JS orqali dinamik qo'shiladi -->
+      </div>
+
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">🏆</div>
+        <h3>Ushbu vaqt oralig'ida rejalar topilmadi</h3>
+        <p>Yuqoridagi formadan yangi reja qo'shing yoki "Namuna: Ertalabdan Kechgacha" tugmasini bosing!</p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="luxury-footer">
+      <div class="gold-divider"></div>
+      <p>© Oltin Kun Tartibi — Har bir daqiqa va har bir tanga sizning foydangizga xizmat qiladi!</p>
+    </footer>
+  </div>
+
+  <!-- ==============================================
+       BUDILNIK JIRINGLASH DARCHASI (ALARM MODAL)
+       ============================================== -->
+  <div id="alarmModal" class="luxury-modal-overlay hidden">
+    <div class="luxury-modal alarm-ringing-card">
+      <div class="ringing-bell-icon">🔔</div>
+      <h2 class="modal-gold-title">BUDILNIK JIRINGLADI!</h2>
+      <p class="alarm-ringing-time" id="alarmModalTime">07:00</p>
+      <p class="alarm-ringing-desc" id="alarmModalLabel">Ertalabki badantarbiya va mashg'ulot vaqti bo'ldi!</p>
+      <div class="modal-actions">
+        <button class="btn btn-gold btn-large" id="stopAlarmBtn">⏰ Budilnikni O'chirish</button>
+        <button class="btn btn-secondary" id="snoozeAlarmBtn">💤 5 Daqiqaga Kechiktirish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       SOVG'A OCHILISH DARCHASI (GIFT REVEAL MODAL)
+       ============================================== -->
+  <div id="giftModal" class="luxury-modal-overlay hidden">
+    <div class="luxury-modal gift-reveal-card">
+      <div class="gift-reveal-icon" id="giftModalIcon">🎁</div>
+      <div class="gift-stars">✨ ✦ ✦ ✦ ✨</div>
+      <h2 class="modal-gold-title" id="giftModalTitle">TABRIKLAYMIZ! SOVG'A OCHILDI!</h2>
+      <p class="gift-reward-desc" id="giftModalDesc">Siz muvaffaqiyatli tangalar to'plab yangi unvonga ega bo'ldingiz!</p>
+      <button class="btn btn-gold btn-large" id="closeGiftModalBtn">🎉 Sovg'ani Qabul Qilish</button>
+    </div>
+  </div>
+
+  <!-- Bildirishnoma (Toast Toast Message) -->
+  <div id="toastNotification" class="toast-notification hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
