@@ -1,0 +1,3639 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bilimdon - Online Test</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:
+    radial-gradient(circle at 10% 10%,#bfdbfe,transparent 30%),
+    radial-gradient(circle at 90% 90%,#ddd6fe,transparent 30%),
+    linear-gradient(135deg,#eff6ff,#f5f3ff);
+    min-height:100vh;
+    color:#111827;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:#1e40af;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 6%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    gap:8px;
+    list-style:none;
+}
+
+.nav-links button{
+    width:auto;
+    padding:10px 15px;
+    margin:0;
+    background:transparent;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.nav-links button:hover{
+    background:rgba(255,255,255,.2);
+}
+
+/* CONTAINER */
+
+.container{
+    max-width:1100px;
+    margin:35px auto;
+    padding:15px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* CARD */
+
+.card{
+    background:rgba(255,255,255,.96);
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:25px;
+    box-shadow:0 10px 35px rgba(0,0,0,.1);
+}
+
+/* HOME */
+
+.hero{
+    text-align:center;
+    padding:50px 25px;
+}
+
+.hero-icon{
+    font-size:75px;
+}
+
+.hero h1{
+    font-size:38px;
+    color:#1d4ed8;
+    margin:15px 0;
+}
+
+.hero p{
+    color:#64748b;
+    font-size:18px;
+    line-height:1.6;
+}
+
+.start-form{
+    max-width:600px;
+    margin:30px auto 0;
+    text-align:left;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:15px 0 7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:14px;
+    border:2px solid #dbeafe;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#2563eb;
+}
+
+/* BUTTON */
+
+.main-btn{
+    width:100%;
+    padding:15px;
+    margin-top:20px;
+    border:none;
+    border-radius:13px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.main-btn:hover{
+    opacity:.9;
+}
+
+/* SECTION */
+
+.section-title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.section-title h2{
+    margin-bottom:8px;
+}
+
+/* SUBJECTS */
+
+.subject-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.subject{
+    background:white;
+    border:2px solid #e2e8f0;
+    border-radius:17px;
+    padding:25px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.subject:hover{
+    border-color:#2563eb;
+    background:#eff6ff;
+    transform:translateY(-4px);
+}
+
+.subject-icon{
+    font-size:38px;
+    display:block;
+    margin-bottom:10px;
+}
+
+.subject-name{
+    font-weight:bold;
+}
+
+/* TEST */
+
+.test-top{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:25px;
+    font-weight:bold;
+}
+
+.timer{
+    color:#dc2626;
+    background:#fee2e2;
+    padding:10px 15px;
+    border-radius:10px;
+}
+
+.question{
+    font-size:23px;
+    font-weight:bold;
+    color:#000;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+.answers{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.answer{
+    padding:16px;
+    background:white;
+    border:2px solid #e2e8f0;
+    border-radius:12px;
+    cursor:pointer;
+    text-align:left;
+    font-size:16px;
+}
+
+.answer:hover{
+    background:#eff6ff;
+    border-color:#60a5fa;
+}
+
+.answer.selected{
+    background:#bfdbfe;
+    border-color:#2563eb;
+}
+
+/* RESULT */
+
+.result-box{
+    text-align:center;
+}
+
+.big-score{
+    font-size:60px;
+    color:#16a34a;
+    font-weight:bold;
+    margin:20px;
+}
+
+.result-message{
+    font-size:20px;
+    margin:15px;
+}
+
+.result-item{
+    padding:18px;
+    border-radius:14px;
+    background:#f8fafc;
+    margin-bottom:12px;
+    border-left:6px solid #2563eb;
+}
+
+.good{
+    border-left-color:#16a34a;
+}
+
+.bad{
+    border-left-color:#dc2626;
+}
+
+/* CONTACT */
+
+.contact-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.contact-card{
+    text-align:center;
+    padding:25px;
+    background:#f8fafc;
+    border-radius:15px;
+}
+
+.contact-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#64748b;
+}
+
+/* MOBILE */
+
+@media(max-width:850px){
+
+    .subject-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:12px;
+    }
+}
+
+@media(max-width:600px){
+
+    .subject-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .contact-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:28px;
+    }
+
+    .question{
+        font-size:19px;
+    }
+
+    .test-top{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .nav-links{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+    }
+}
+
+
+.coin-box{
+    background:#facc15;
+    color:#713f12;
+    padding:9px 14px;
+    border-radius:20px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+.admin-grid,.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+.admin-card,.shop-card{
+    background:#f8fafc;
+    border-radius:16px;
+    padding:20px;
+    border:2px solid #e2e8f0;
+}
+.admin-card h3,.shop-card h3{margin-bottom:10px}
+.small-btn{
+    border:none;
+    padding:10px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:10px;
+}
+.danger-btn{background:#dc2626;color:white}
+.buy-btn{background:#16a34a;color:white;width:100%}
+.info-btn{background:#2563eb;color:white}
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+.admin-table th,.admin-table td{
+    border:1px solid #e2e8f0;
+    padding:10px;
+    text-align:left;
+}
+.admin-table th{background:#eff6ff}
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:999px;
+    background:#dbeafe;
+    color:#1e40af;
+    font-size:13px;
+    font-weight:bold;
+}
+@media(max-width:850px){
+    .admin-grid,.shop-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+    .admin-grid,.shop-grid{grid-template-columns:1fr}
+    .coin-box{font-size:14px}
+}
+
+
+/* ===== Yangi zamonaviy fon ===== */
+body{
+  background:
+    radial-gradient(circle at 10% 15%, rgba(99,102,241,.22) 0 8%, transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(14,165,233,.20) 0 8%, transparent 30%),
+    radial-gradient(circle at 80% 85%, rgba(168,85,247,.18) 0 7%, transparent 28%),
+    radial-gradient(circle at 15% 85%, rgba(16,185,129,.14) 0 7%, transparent 25%),
+    linear-gradient(135deg,#08111f 0%,#101b35 42%,#172554 72%,#0b1220 100%);
+  background-attachment: fixed;
+  min-height:100vh;
+  color:#eef2ff;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.28;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);
+}
+nav,.navbar,.topbar{
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  background:rgba(8,15,31,.72)!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+section,.page,.container,.card,.test-card,.result-card,.hero,.subject-card,.admin-card,.shop-card{
+  position:relative;
+}
+.card,.test-card,.result-card,.hero,.subject-card,.admin-card,.shop-card{
+  background:rgba(15,23,42,.68)!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 18px 50px rgba(0,0,0,.24)!important;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.hero{
+  overflow:hidden;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  width:280px;height:280px;
+  right:-90px;top:-100px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(59,130,246,.30),rgba(168,85,247,.10));
+  filter:blur(3px);
+  pointer-events:none;
+}
+.subject-card,.shop-card,.admin-card{
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+.subject-card:hover,.shop-card:hover,.admin-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(96,165,250,.42)!important;
+  box-shadow:0 22px 55px rgba(0,0,0,.32)!important;
+}
+button,.btn{
+  box-shadow:0 8px 22px rgba(37,99,235,.18);
+}
+input,select,textarea{
+  background:rgba(2,6,23,.55)!important;
+  color:#f8fafc!important;
+  border-color:rgba(255,255,255,.13)!important;
+}
+input::placeholder,textarea::placeholder{color:#94a3b8!important}
+
+
+/* ===== BILIMDON PRO DESIGN REFRESH ===== */
+:root{
+  --bd-primary:#6366f1;
+  --bd-secondary:#06b6d4;
+  --bd-accent:#a855f7;
+  --bd-green:#10b981;
+  --bd-text:#f8fafc;
+  --bd-muted:#a8b3c7;
+  --bd-border:rgba(255,255,255,.11);
+  --bd-glass:rgba(15,23,42,.68);
+}
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important;
+  letter-spacing:.1px;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(99,102,241,.13),transparent 38%),
+    radial-gradient(circle at 0% 50%,rgba(6,182,212,.08),transparent 32%),
+    radial-gradient(circle at 100% 60%,rgba(168,85,247,.09),transparent 32%);
+}
+
+/* Navbar */
+nav,.navbar,.topbar{
+  min-height:64px!important;
+}
+nav a,nav button,.navbar a,.navbar button,.topbar a,.topbar button{
+  transition:all .2s ease!important;
+}
+nav a:hover,nav button:hover,.navbar a:hover,.navbar button:hover,.topbar a:hover,.topbar button:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.12);
+}
+
+/* Hero / home */
+.hero{
+  border-radius:28px!important;
+  padding:clamp(28px,5vw,60px)!important;
+  min-height:330px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  isolation:isolate;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  width:420px;height:420px;
+  left:-180px;bottom:-240px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(6,182,212,.20),transparent 65%);
+  z-index:-1;
+}
+.hero h1{
+  font-size:clamp(32px,6vw,64px)!important;
+  line-height:1.04!important;
+  letter-spacing:-2px;
+  text-shadow:0 10px 35px rgba(0,0,0,.3);
+}
+.hero p{
+  color:#cbd5e1!important;
+  max-width:720px;
+  font-size:clamp(15px,2vw,19px)!important;
+}
+
+/* Section titles */
+h1,h2,h3{
+  letter-spacing:-.6px;
+}
+section>h2,.page>h2{
+  position:relative;
+  display:inline-block;
+  margin-bottom:24px!important;
+}
+section>h2::after,.page>h2::after{
+  content:"";
+  display:block;
+  width:52%;
+  height:3px;
+  margin-top:9px;
+  border-radius:10px;
+  background:linear-gradient(90deg,var(--bd-secondary),var(--bd-primary),transparent);
+}
+
+/* Cards */
+.card,.test-card,.result-card,.hero,.subject-card,.admin-card,.shop-card{
+  border-radius:22px!important;
+}
+.subject-card{
+  min-height:170px;
+  cursor:pointer;
+}
+.subject-card::before,.shop-card::before,.admin-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  pointer-events:none;
+  background:linear-gradient(135deg,rgba(255,255,255,.055),transparent 42%);
+}
+.subject-card:hover{
+  transform:translateY(-8px) scale(1.012);
+}
+.subject-card:active,.shop-card:active,button:active{
+  transform:scale(.98);
+}
+
+/* Buttons */
+button,.btn{
+  border:1px solid rgba(255,255,255,.10)!important;
+  border-radius:13px!important;
+  font-weight:700!important;
+  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease!important;
+}
+button:hover,.btn:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.08);
+  box-shadow:0 12px 30px rgba(0,0,0,.22)!important;
+}
+
+/* Inputs */
+input,select,textarea{
+  border-radius:13px!important;
+  min-height:44px;
+  outline:none!important;
+  transition:border-color .2s,box-shadow .2s!important;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:rgba(99,102,241,.75)!important;
+  box-shadow:0 0 0 4px rgba(99,102,241,.12)!important;
+}
+
+/* Test page */
+#testPage .test-card{
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
+#testPage{
+  padding-bottom:40px;
+}
+.timer,.time,.countdown{
+  font-variant-numeric:tabular-nums;
+  font-weight:800!important;
+  text-shadow:0 4px 20px rgba(99,102,241,.28);
+}
+
+/* Answer choices */
+.answer,.option,.answer-option{
+  border-radius:15px!important;
+  transition:all .18s ease!important;
+}
+.answer:hover,.option:hover,.answer-option:hover{
+  transform:translateX(4px);
+  border-color:rgba(99,102,241,.5)!important;
+  background:rgba(99,102,241,.10)!important;
+}
+
+/* Results */
+table,.admin-table{
+  border-radius:16px;
+  overflow:hidden;
+}
+th{
+  background:rgba(99,102,241,.14)!important;
+}
+tr{
+  transition:background .15s ease;
+}
+tbody tr:hover{
+  background:rgba(255,255,255,.035)!important;
+}
+
+/* Coins */
+.coin-box{
+  border:1px solid rgba(250,204,21,.22)!important;
+  background:linear-gradient(135deg,rgba(250,204,21,.12),rgba(245,158,11,.06))!important;
+  box-shadow:0 8px 30px rgba(245,158,11,.08)!important;
+}
+
+/* Admin */
+.admin-card{
+  overflow:hidden;
+}
+.admin-grid,.shop-grid{
+  gap:20px!important;
+}
+.danger-btn{
+  transition:all .18s ease!important;
+}
+.badge{
+  border-radius:999px!important;
+  padding:5px 10px!important;
+}
+
+/* Contact */
+textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+/* Mobile polish */
+@media(max-width:700px){
+  nav,.navbar,.topbar{
+    overflow-x:auto;
+    gap:6px!important;
+  }
+  nav a,nav button,.navbar a,.navbar button,.topbar a,.topbar button{
+    white-space:nowrap!important;
+    font-size:13px!important;
+  }
+  .hero{
+    min-height:290px;
+    border-radius:20px!important;
+  }
+  .hero h1{
+    letter-spacing:-1px;
+  }
+  .subject-card{
+    min-height:145px;
+  }
+}
+
+</style>
+
+<style>
+#bdTopBtn{
+  position:fixed;right:20px;bottom:20px;z-index:9999;
+  width:46px;height:46px;border-radius:50%!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  background:rgba(15,23,42,.78)!important;
+  color:#fff!important;
+  backdrop-filter:blur(12px);
+  box-shadow:0 10px 30px rgba(0,0,0,.28)!important;
+  display:none;
+  cursor:pointer;
+  font-size:20px;
+}
+#bdTopBtn.show{display:block}
+
+/* =========================================================
+   BILIMDON — TO'LIQ KO'K DIZAYN
+   Oq bloklar -> ko'k
+   Yozuvlar -> qora
+   Fonlar -> ko'k
+   ========================================================= */
+
+:root{
+  --blue-1:#0b3d91;
+  --blue-2:#0757b8;
+  --blue-3:#0879d1;
+  --blue-4:#e8f3ff;
+  --black:#111827;
+  --white:#ffffff;
+}
+
+/* Asosiy fon */
+html,body{
+  background:#0879d1!important;
+  background-image:
+    radial-gradient(circle at 10% 10%,rgba(255,255,255,.16),transparent 25%),
+    radial-gradient(circle at 90% 20%,rgba(0,39,105,.22),transparent 30%),
+    linear-gradient(135deg,#063b91 0%,#0757b8 48%,#0789d8 100%)!important;
+  background-attachment:fixed!important;
+  color:var(--black)!important;
+}
+
+/* Fon ustidagi dekor */
+body::before{
+  background-image:
+    linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px)!important;
+  background-size:40px 40px!important;
+  opacity:.35!important;
+}
+body::after{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(255,255,255,.12),transparent 38%),
+    radial-gradient(circle at 0% 70%,rgba(0,35,100,.12),transparent 32%),
+    radial-gradient(circle at 100% 70%,rgba(255,255,255,.08),transparent 32%)!important;
+}
+
+/* Navbar */
+nav,.navbar,.topbar{
+  background:rgba(4,48,113,.96)!important;
+  color:#fff!important;
+  border-bottom:1px solid rgba(255,255,255,.18)!important;
+}
+nav a,nav button,.navbar a,.navbar button,.topbar a,.topbar button{
+  color:#fff!important;
+}
+
+/* Barcha asosiy oq kartalar */
+.hero,.card,.test-card,.result-card,.subject-card,.admin-card,.shop-card{
+  background:linear-gradient(145deg,#0a5fbd,#0879d1)!important;
+  color:#111827!important;
+  border:1px solid rgba(255,255,255,.25)!important;
+  box-shadow:0 16px 40px rgba(0,34,90,.28)!important;
+}
+
+/* Kartadagi barcha yozuvlar qora */
+.hero h1,.hero h2,.hero h3,
+.hero h4,.hero h5,.hero h6,
+.card h1,.card h2,.card h3,.card h4,.card h5,.card h6,
+.subject-card h1,.subject-card h2,.subject-card h3,
+.subject-card h4,.subject-card h5,.subject-card h6,
+.admin-card h1,.admin-card h2,.admin-card h3,
+.admin-card h4,.admin-card h5,.admin-card h6,
+.shop-card h1,.shop-card h2,.shop-card h3,
+.shop-card h4,.shop-card h5,.shop-card h6,
+.result-card h1,.result-card h2,.result-card h3,
+.result-card h4,.result-card h5,.result-card h6,
+.hero p,.card p,.subject-card p,.admin-card p,
+.shop-card p,.result-card p,
+.hero span,.card span,.subject-card span,
+.admin-card span,.shop-card span,.result-card span,
+.hero label,.card label,.subject-card label,
+.admin-card label,.shop-card label,.result-card label{
+  color:#111827!important;
+}
+
+/* Fanlar — ko'k kartalar */
+.subject-card{
+  background:linear-gradient(145deg,#0879d1,#0a5fbd)!important;
+}
+.subject-card:hover{
+  background:linear-gradient(145deg,#0a6acb,#0794e8)!important;
+  border-color:rgba(255,255,255,.48)!important;
+}
+
+/* Test savoli qora yozuvda */
+#testPage .test-card,
+#testPage .test-card *{
+  color:#111827!important;
+}
+
+/* Javob variantlari */
+.answer,.option,.answer-option{
+  background:#4aa7e8!important;
+  color:#111827!important;
+  border:2px solid rgba(255,255,255,.35)!important;
+}
+.answer:hover,.option:hover,.answer-option:hover{
+  background:#72c2f3!important;
+  color:#111827!important;
+  border-color:#fff!important;
+}
+
+/* Inputlar ham ko'k */
+input,select,textarea{
+  background:#62b5ec!important;
+  color:#111827!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+}
+input::placeholder,textarea::placeholder{
+  color:#26364d!important;
+}
+input:focus,select:focus,textarea:focus{
+  background:#8bd0f7!important;
+  color:#111827!important;
+  border-color:#fff!important;
+}
+
+/* Jadval */
+table,.admin-table{
+  background:#0879d1!important;
+  color:#111827!important;
+  border:1px solid rgba(255,255,255,.25)!important;
+}
+th{
+  background:#49a8e8!important;
+  color:#111827!important;
+}
+td{
+  background:#2291d7!important;
+  color:#111827!important;
+  border-color:rgba(255,255,255,.20)!important;
+}
+tbody tr:hover td{
+  background:#62b5ec!important;
+  color:#111827!important;
+}
+
+/* Tanga */
+.coin-box{
+  background:linear-gradient(135deg,#0b4fa8,#0879d1)!important;
+  color:#111827!important;
+  border:1px solid rgba(255,255,255,.32)!important;
+}
+.coin-box *{
+  color:#111827!important;
+}
+
+/* Badge */
+.badge{
+  background:#69baf0!important;
+  color:#111827!important;
+}
+
+/* Tugmalarni ko'k qilish */
+button,.btn,
+.small-btn,.info-btn,.buy-btn{
+  background:linear-gradient(135deg,#064a9d,#0879d1)!important;
+  color:#fff!important;
+  border:1px solid rgba(255,255,255,.30)!important;
+}
+button:hover,.btn:hover,
+.small-btn:hover,.info-btn:hover,.buy-btn:hover{
+  background:linear-gradient(135deg,#0757b8,#0aa0ea)!important;
+}
+.danger-btn{
+  background:linear-gradient(135deg,#064a9d,#0879d1)!important;
+  color:#fff!important;
+}
+
+/* Sarlavha chizig'i */
+section>h2::after,.page>h2::after{
+  background:linear-gradient(90deg,#fff,#75caff,transparent)!important;
+}
+
+/* Yuqoriga tugmasi */
+#bdTopBtn{
+  background:#064a9d!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.35)!important;
+}
+
+/* Ajratuvchilar */
+hr{
+  border-top-color:rgba(255,255,255,.28)!important;
+}
+
+/* Mobil */
+@media(max-width:700px){
+  .hero,.card,.test-card,.result-card,.subject-card,.admin-card,.shop-card{
+    border-radius:18px!important;
+  }
+}
+
+
+/* ===== KENGAYTIRILGAN DO'KON ===== */
+.shop-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr))!important;
+  gap:18px!important;
+}
+.shop-card{
+  position:relative;
+  overflow:hidden;
+  min-height:205px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.shop-card .shop-icon{
+  font-size:42px;
+  margin-bottom:8px;
+  display:block;
+}
+.shop-card .shop-price{
+  display:inline-block;
+  margin:8px 0 12px;
+  padding:6px 12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.28);
+  font-weight:800;
+  color:#111827!important;
+}
+.buy-btn{
+  width:100%;
+  margin-top:auto;
+}
+.promo-card{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#064a9d,#0a8ddd)!important;
+  border:2px solid rgba(255,255,255,.38)!important;
+}
+.promo-card *{color:#111827!important}
+.promo-card .promo-title{
+  font-size:22px;
+  font-weight:900;
+}
+.promo-card .promo-count{
+  font-size:34px;
+  font-weight:900;
+}
+.order-progress{
+  height:10px;
+  width:100%;
+  background:rgba(255,255,255,.25);
+  border-radius:99px;
+  overflow:hidden;
+  margin:10px 0 8px;
+}
+.order-progress > div{
+  height:100%;
+  background:#fff;
+  border-radius:99px;
+  transition:width .3s ease;
+}
+.shop-note{
+  font-size:13px;
+  opacity:.85;
+}
+
+
+/* UNIVERSAL PROFESSIONAL RANG DIZAYNI */
+:root{
+  --navy:#17324d;
+  --blue:#2f6fa3;
+  --sky:#72b7df;
+  --panel:#f7fbfe;
+  --panel2:#dcecf7;
+  --text:#17212b;
+  --muted:#536779;
+}
+html,body{
+  background:
+    radial-gradient(circle at 8% 12%,rgba(255,255,255,.30),transparent 24%),
+    radial-gradient(circle at 90% 8%,rgba(114,183,223,.22),transparent 28%),
+    linear-gradient(135deg,#d8ebf7 0%,#b8d9ec 42%,#8fbfdc 100%)!important;
+  background-attachment:fixed!important;
+  color:var(--text)!important;
+}
+body::before{
+  opacity:.22!important;
+  background-image:
+    linear-gradient(rgba(23,50,77,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(23,50,77,.08) 1px,transparent 1px)!important;
+  background-size:44px 44px!important;
+}
+nav,.navbar,.topbar{
+  background:rgba(23,50,77,.95)!important;
+  color:#fff!important;
+  border-bottom:1px solid rgba(255,255,255,.15)!important;
+  box-shadow:0 10px 30px rgba(23,50,77,.18)!important;
+}
+nav a,nav button,.navbar a,.navbar button,.topbar a,.topbar button{color:#fff!important}
+.hero,.card,.test-card,.result-card,.subject-card,.admin-card,.shop-card{
+  background:linear-gradient(145deg,rgba(247,251,254,.98),rgba(220,236,247,.97))!important;
+  color:var(--text)!important;
+  border:1px solid rgba(47,111,163,.20)!important;
+  box-shadow:0 16px 38px rgba(23,50,77,.14)!important;
+}
+.hero{
+  background:
+    radial-gradient(circle at 90% 10%,rgba(114,183,223,.25),transparent 30%),
+    linear-gradient(145deg,#f8fcff,#dbeaf4)!important;
+}
+.hero h1,.hero h2,.hero h3,.card h1,.card h2,.card h3,
+.subject-card h1,.subject-card h2,.subject-card h3,
+.admin-card h1,.admin-card h2,.admin-card h3,
+.shop-card h1,.shop-card h2,.shop-card h3,
+.result-card h1,.result-card h2,.result-card h3{color:#17324d!important}
+.hero p,.card p,.subject-card p,.admin-card p,.shop-card p,.result-card p{color:#536779!important}
+.subject-card{
+  background:linear-gradient(145deg,#eaf4fb,#cfe5f2)!important;
+}
+.subject-card:hover{
+  background:linear-gradient(145deg,#d8eef9,#b8dced)!important;
+  border-color:rgba(31,122,168,.42)!important;
+}
+.subject-card *{color:#17212b!important}
+#testPage .test-card,#testPage .test-card *{color:#17212b!important}
+.answer,.option,.answer-option{
+  background:#eef7fc!important;
+  color:#17212b!important;
+  border:1px solid #bdd6e6!important;
+}
+.answer:hover,.option:hover,.answer-option:hover{
+  background:#d7ecf7!important;
+  border-color:#4d91bb!important;
+}
+input,select,textarea{
+  background:#f9fcfe!important;
+  color:#17212b!important;
+  border:1px solid #b7cfdf!important;
+}
+input::placeholder,textarea::placeholder{color:#718494!important}
+input:focus,select:focus,textarea:focus{
+  background:#fff!important;
+  border-color:#2f6fa3!important;
+  box-shadow:0 0 0 4px rgba(47,111,163,.12)!important;
+}
+button,.btn,.small-btn,.info-btn,.buy-btn{
+  background:linear-gradient(135deg,#2f6fa3,#1f7aa8)!important;
+  color:#fff!important;
+  border:1px solid rgba(23,50,77,.14)!important;
+}
+button:hover,.btn:hover,.small-btn:hover,.info-btn:hover,.buy-btn:hover{
+  background:linear-gradient(135deg,#245c87,#17678d)!important;
+}
+.shop-card{background:linear-gradient(145deg,#f7fbfe,#d9eaf5)!important}
+.shop-price{background:#cde5f3!important;color:#17324d!important}
+.promo-card{
+  background:linear-gradient(135deg,#8ec7e5,#5da8d2)!important;
+}
+.promo-card *{color:#17324d!important}
+.order-progress{background:rgba(255,255,255,.55)!important}
+.order-progress > div{background:#17324d!important}
+.coin-box{
+  background:linear-gradient(135deg,#f7e7a9,#e8c95d)!important;
+  color:#4e3d08!important;
+  border:1px solid #d8b94f!important;
+}
+.coin-box *{color:#4e3d08!important}
+.badge{background:#d4e9f5!important;color:#214e6c!important}
+table,.admin-table{
+  background:#f8fcfe!important;
+  color:#17212b!important;
+  border:1px solid #bdd4e2!important;
+}
+th{background:#cfe5f2!important;color:#17324d!important}
+td{background:#f7fbfe!important;color:#17212b!important;border-color:#d7e4ec!important}
+tbody tr:hover td{background:#e6f2f9!important}
+section>h2::after,.page>h2::after{
+  background:linear-gradient(90deg,#2f6fa3,#72b7df,transparent)!important;
+}
+#bdTopBtn{
+  background:#17324d!important;
+  color:#fff!important;
+}
+
+</style>
+
+<style id="theme-switcher">
+/* 6 ta rang mavzusi */
+:root{
+  --theme-bg:#eaf4ff; --theme-bg2:#d7ebff; --theme-card:#ffffff;
+  --theme-nav:#082f63; --theme-text:#10233f; --theme-accent:#1769d1;
+  --theme-accent2:#0b4ea2; --theme-border:#b9d7f5;
+  --theme-shadow:rgba(8,47,99,.14);
+}
+body{
+  background:linear-gradient(135deg,var(--theme-bg),var(--theme-bg2)) !important;
+  color:var(--theme-text) !important;
+}
+nav,.navbar,.topbar,header{
+  background:var(--theme-nav) !important;
+}
+.card,.subject-card,.result-card,.shop-card,.box,.panel,.modal-content,
+section.card, .stats-card, .question-card{
+  background:var(--theme-card) !important;
+  border-color:var(--theme-border) !important;
+  box-shadow:0 8px 24px var(--theme-shadow) !important;
+}
+button,.btn,.start-btn,.next-btn,.shop-btn{
+  background:var(--theme-accent) !important;
+}
+button:hover,.btn:hover,.start-btn:hover,.next-btn:hover,.shop-btn:hover{
+  background:var(--theme-accent2) !important;
+}
+h1,h2,h3,h4,h5,h6,p,label,td,th,span,.question-text{
+  color:var(--theme-text);
+}
+.theme-picker{
+  position:fixed;right:18px;bottom:18px;z-index:99999;
+  font-family:inherit;
+}
+.theme-toggle{
+  border:0;border-radius:14px;padding:11px 15px;cursor:pointer;
+  color:white !important;background:var(--theme-accent) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.22);
+  font-weight:700;
+}
+.theme-menu{
+  display:none;margin-top:8px;padding:10px;width:220px;
+  background:var(--theme-card);border:1px solid var(--theme-border);
+  border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.2);
+}
+.theme-menu.open{display:block}
+.theme-option{
+  width:100%;display:flex;align-items:center;gap:10px;
+  padding:9px 10px;margin:4px 0;border:0;border-radius:10px;
+  cursor:pointer;background:transparent !important;color:var(--theme-text) !important;
+  text-align:left;
+}
+.theme-option:hover{background:var(--theme-bg2) !important}
+.swatch{width:22px;height:22px;border-radius:50%;display:inline-block;border:2px solid rgba(0,0,0,.12)}
+</style>
+
+
+<style id="black-gold-silver-final">
+:root{
+  --theme-bg:#090a0c !important;
+  --theme-bg2:#17130a !important;
+  --theme-card:#111316 !important;
+  --theme-nav:#050506 !important;
+  --theme-text:#c9c9c9 !important;
+  --theme-accent:#c9a227 !important;
+  --theme-accent2:#e0b52f !important;
+  --theme-border:#5b4a1a !important;
+  --theme-shadow:rgba(0,0,0,.45) !important;
+}
+html,body{
+  background:linear-gradient(135deg,#050506 0%,#0d0e10 52%,#1a1408 100%) !important;
+  color:#c9c9c9 !important;
+}
+body::before{
+  background:radial-gradient(circle at 15% 10%,rgba(201,162,39,.10),transparent 32%),
+             radial-gradient(circle at 85% 85%,rgba(201,162,39,.08),transparent 35%) !important;
+}
+nav,.navbar,.topbar,header{
+  background:linear-gradient(90deg,#030304,#0d0d0f 55%,#171107) !important;
+  border-bottom:1px solid #5b4a1a !important;
+}
+.card,.subject-card,.result-card,.shop-card,.box,.panel,.modal-content,
+section.card,.stats-card,.question-card,.container-card{
+  background:linear-gradient(145deg,#111316,#0b0c0e) !important;
+  border:1px solid #4d401c !important;
+  color:#c9c9c9 !important;
+  box-shadow:0 12px 30px rgba(0,0,0,.42) !important;
+}
+h1,h2,h3,h4,h5,h6,
+p,label,td,th,span,.question-text,
+.feature,.feature-title,.subject-name,.nav-link{
+  color:#c9c9c9 !important;
+}
+.gold,.coin,.coins,.price,.money,.score{
+  color:#e0b52f !important;
+}
+button,.btn,.start-btn,.next-btn,.shop-btn{
+  background:linear-gradient(135deg,#a98218,#d2aa2b) !important;
+  color:#080808 !important;
+  border:1px solid #e0b52f !important;
+  font-weight:800 !important;
+}
+button:hover,.btn:hover,.start-btn:hover,.next-btn:hover,.shop-btn:hover{
+  background:linear-gradient(135deg,#d2aa2b,#f0c94a) !important;
+  color:#000 !important;
+  box-shadow:0 0 18px rgba(224,181,47,.20) !important;
+}
+input,select,textarea{
+  background:#090a0c !important;
+  color:#d2d2d2 !important;
+  border:1px solid #55471f !important;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#d0a92b !important;
+  box-shadow:0 0 0 3px rgba(208,169,43,.12) !important;
+}
+table{
+  background:#0c0d0f !important;
+  color:#c9c9c9 !important;
+}
+th{
+  background:#1b160b !important;
+  color:#d9d9d9 !important;
+}
+td{
+  border-color:#39321d !important;
+}
+a{
+  color:#d0ad35 !important;
+}
+hr{border-color:#39321d !important}
+::placeholder{color:#858585 !important}
+.theme-picker{display:none !important}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        🎓 Bilimdon
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <button onclick="showPage('home')">
+                🏠 Kirish
+            </button>
+        </li>
+
+        <li>
+            <button onclick="showPage('subjects')">
+                📚 Fanlar
+            </button>
+        </li>
+
+        <li>
+            <button onclick="showPage('results')">
+                📊 Natijalar
+            </button>
+        </li>
+
+        <li>
+            <button onclick="showPage('contact')">
+                📞 Aloqa
+            </button>
+        </li>
+
+        <li>
+            <button onclick="showPage('shop')">
+                🛒 Do‘kon
+            </button>
+        </li>
+
+        <li>
+            <button onclick="openAdmin()">
+                🔐 Admin
+            </button>
+        </li>
+
+        <li>
+            <div class="coin-box">
+                🪙 <span id="coinCount">0</span> tanga
+            </div>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<div class="container">
+
+
+<!-- ================= KIRISH ================= -->
+
+<section id="home" class="page active">
+
+<div class="card hero">
+
+    <div class="hero-icon">
+        🎓
+    </div>
+
+    <h1>
+        Bilimdon Online Test
+    </h1>
+
+    <p>
+        1–11-sinf o‘quvchilari uchun barcha fanlardan
+        test ishlang va natijangizni tekshiring.
+    </p>
+
+
+    <div class="start-form">
+
+        <label>
+            👤 Ismingiz
+        </label>
+
+        <input
+            id="userName"
+            type="text"
+            placeholder="Ismingizni kiriting"
+        >
+
+
+        <label>
+            🎒 Sinfingiz
+        </label>
+
+        <select id="userClass">
+
+            <option value="1">1-sinf</option>
+            <option value="2">2-sinf</option>
+            <option value="3">3-sinf</option>
+            <option value="4">4-sinf</option>
+            <option value="5">5-sinf</option>
+            <option value="6">6-sinf</option>
+            <option value="7">7-sinf</option>
+            <option value="8">8-sinf</option>
+            <option value="9">9-sinf</option>
+            <option value="10">10-sinf</option>
+            <option value="11">11-sinf</option>
+
+        </select>
+
+
+        <button
+            class="main-btn"
+            onclick="goToSubjects()"
+        >
+            🚀 TEST BOSHLASH
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+<div class="section-title">
+
+<h2>
+📚 Sayt imkoniyatlari
+</h2>
+
+</div>
+
+
+<div class="contact-grid">
+
+<div class="contact-card">
+
+<div class="contact-icon">
+🎲
+</div>
+
+<h3>
+Random test
+</h3>
+
+<p>
+Savollar tasodifiy chiqadi.
+</p>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+⏱️
+</div>
+
+<h3>
+Vaqt
+</h3>
+
+<p>
+Test vaqt bilan ishlaydi.
+</p>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+📊
+</div>
+
+<h3>
+Natijalar
+</h3>
+
+<p>
+Natijalarni ko‘rish mumkin.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= FANLAR ================= -->
+
+<section id="subjects" class="page">
+
+<div class="card">
+
+<div class="section-title">
+
+<h2>
+📚 Barcha fanlar
+</h2>
+
+<p>
+O‘zingizga kerakli fanni tanlang
+</p>
+
+</div>
+
+
+<div class="subject-grid">
+
+
+<div class="subject"
+onclick="startSubject('matematika')">
+
+<span class="subject-icon">🧮</span>
+
+<span class="subject-name">
+Matematika
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('ona_tili')">
+
+<span class="subject-icon">📖</span>
+
+<span class="subject-name">
+Ona tili
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('ingliz_tili')">
+
+<span class="subject-icon">🇬🇧</span>
+
+<span class="subject-name">
+Ingliz tili
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('fizika')">
+
+<span class="subject-icon">⚡</span>
+
+<span class="subject-name">
+Fizika
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('tarix')">
+
+<span class="subject-icon">🏛️</span>
+
+<span class="subject-name">
+Tarix
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('biologiya')">
+
+<span class="subject-icon">🧬</span>
+
+<span class="subject-name">
+Biologiya
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('geografiya')">
+
+<span class="subject-icon">🌍</span>
+
+<span class="subject-name">
+Geografiya
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('informatika')">
+
+<span class="subject-icon">💻</span>
+
+<span class="subject-name">
+Informatika
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('kimyo')">
+
+<span class="subject-icon">🧪</span>
+
+<span class="subject-name">
+Kimyo
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('adabiyot')">
+
+<span class="subject-icon">📚</span>
+
+<span class="subject-name">
+Adabiyot
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('huquq')">
+
+<span class="subject-icon">⚖️</span>
+
+<span class="subject-name">
+Huquq
+</span>
+
+</div>
+
+
+<div class="subject"
+onclick="startSubject('iqtisod')">
+
+<span class="subject-icon">💰</span>
+
+<span class="subject-name">
+Iqtisod
+</span>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= TEST ================= -->
+
+<section id="test" class="page">
+
+<div class="card">
+
+
+<div class="test-top">
+
+<span id="questionNumber">
+Savol: 1/10
+</span>
+
+<span id="timer" class="timer">
+⏱ 05:00
+</span>
+
+</div>
+
+
+<h2 id="testSubjectTitle">
+Fan
+</h2>
+
+
+<div
+id="questionText"
+class="question"
+>
+Savol
+</div>
+
+
+<div
+id="answers"
+class="answers"
+></div>
+
+
+<button
+class="main-btn"
+onclick="nextQuestion()"
+>
+Keyingi savol ➡️
+</button>
+
+
+</div>
+
+</section>
+
+
+
+<!-- ================= NATIJA ================= -->
+
+<section id="result" class="page">
+
+<div class="card result-box">
+
+<div style="font-size:70px">
+🎉
+</div>
+
+<h2>
+Test yakunlandi!
+</h2>
+
+<p id="resultName">
+</p>
+
+<div
+id="bigScore"
+class="big-score"
+>
+0/10
+</div>
+
+<div
+id="resultMessage"
+class="result-message"
+>
+</div>
+
+
+<button
+class="main-btn"
+onclick="showPage('subjects')"
+>
+📚 Boshqa fan tanlash
+</button>
+
+
+<button
+class="main-btn"
+onclick="showPage('results')"
+>
+📊 Natijalarni ko‘rish
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= NATIJALAR ================= -->
+
+<section id="results" class="page">
+
+<div class="card">
+
+<div class="section-title">
+
+<h2>
+📊 Mening natijalarim
+</h2>
+
+<p>
+Qaysi fan yaxshi, qaysi fan yomonligini ko‘ring.
+</p>
+
+</div>
+
+
+<div id="resultsList">
+</div>
+
+
+<button
+class="main-btn"
+onclick="clearResults()"
+>
+🗑️ Natijalarni tozalash
+</button>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= ALOQA ================= -->
+
+<section id="contact" class="page">
+
+<div class="card">
+
+<div class="section-title">
+
+<h2>
+📞 Aloqa
+</h2>
+
+<p>
+Biz bilan bog‘laning.
+</p>
+
+</div>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+📧
+</div>
+
+<h3>
+Email
+</h3>
+
+<p>
+example@gmail.com
+</p>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+📱
+</div>
+
+<h3>
+Telefon
+</h3>
+
+<p>
++998 90 000 00 00
+</p>
+
+</div>
+
+
+<div class="contact-card">
+
+<div class="contact-icon">
+📍
+</div>
+
+<h3>
+Manzil
+</h3>
+
+<p>
+O‘zbekiston
+</p>
+
+</div>
+
+
+</div>
+
+
+<label>
+Ismingiz
+</label>
+
+<input
+type="text"
+placeholder="Ismingiz"
+>
+
+
+<label>
+Xabaringiz
+</label>
+
+<textarea
+rows="5"
+placeholder="Xabaringizni yozing..."
+></textarea>
+
+
+<button
+class="main-btn"
+onclick="sendMessage()"
+>
+📤 Xabar yuborish
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= TANGA DO‘KONI ================= -->
+
+<section id="shop" class="page">
+<div class="shop-card promo-card" id="orderPromo">
+  <div>
+    <div class="promo-title">🎁 30 ta buyurtma → 1+1 AKSIYA</div>
+    <p>30 ta xarid/buyurtmaga yetganda keyingi xaridda 1+1 bonus faollashadi.</p>
+    <div class="promo-count"><span id="orderCount">0</span>/30</div>
+    <div class="order-progress"><div id="orderProgress" style="width:0%"></div></div>
+    <div class="shop-note" id="promoStatus">Yana 30 ta buyurtma kerak.</div>
+  </div>
+</div>
+
+
+<div class="card">
+
+    <div class="section-title">
+        <h2>🛒 Tanga do‘koni</h2>
+        <p>Test ishlab yig‘gan tangalaringizni shu yerda sarflashingiz mumkin.</p>
+    </div>
+
+    <div class="shop-grid">
+
+        <div class="shop-card">
+            <h3>🎁 Bonus paket</h3>
+            <p>10 ta qo‘shimcha tanga.</p>
+            <span class="badge">40 🪙</span>
+            <button class="small-btn buy-btn"
+                    onclick="buyItem('Bonus paket',20,10)">
+                Sotib olish
+            </button>
+        </div>
+
+        <div class="shop-card">
+            <h3>⭐ VIP test</h3>
+            <p>VIP test uchun kirish.</p>
+            <span class="badge">30 🪙</span>
+            <button class="small-btn buy-btn"
+                    onclick="buyItem('VIP test',30,0)">
+                Sotib olish
+            </button>
+        </div>
+
+        <div class="shop-card">
+            <h3>🏆 Super bonus</h3>
+            <p>25 ta qo‘shimcha tanga.</p>
+            <span class="badge">40 🪙</span>
+            <button class="small-btn buy-btn"
+                    onclick="buyItem('Super bonus',40,25)">
+                Sotib olish
+            </button>
+        </div>
+
+    </div>
+
+    <div class="result-item good" style="margin-top:20px">
+        <h3>💰 Sizning balansingiz</h3>
+        <p><b><span id="shopCoinCount">0</span> tanga</b></p>
+    </div>
+
+</div>
+
+
+<div class="shop-card">
+  <div><span class="shop-icon">🖊️</span><h3>Premium ruchka</h3><p>Chiroyli va qulay yozuv ruchkasi.</p></div>
+  <span class="shop-price">30 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Premium ruchka',30)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">📓</span><h3>Daftar</h3><p>Bilimdon uchun yangi daftar.</p></div>
+  <span class="shop-price">40 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Daftar',40)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">✏️</span><h3>Qalam</h3><p>Oddiy qalam to‘plami.</p></div>
+  <span class="shop-price">80 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Qalam',25)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">📐</span><h3>Chizg‘ich</h3><p>Maktab uchun foydali chizg‘ich.</p></div>
+  <span class="shop-price">60 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Chizg‘ich',35)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">🎒</span><h3>Ryukzak</h3><p>Bilimdon uslubidagi ryukzak.</p></div>
+  <span class="shop-price">90 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Ryukzak',90)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">📚</span><h3>Kitob</h3><p>Qo‘shimcha o‘qish uchun kitob.</p></div>
+  <span class="shop-price">60 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Kitob',60)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">🖍️</span><h3>Rangli qalamlar</h3><p>Ijodiy mashg‘ulotlar uchun.</p></div>
+  <span class="shop-price">80 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Rangli qalamlar',45)">Sotib olish</button>
+</div>
+<div class="shop-card">
+  <div><span class="shop-icon">🧮</span><h3>Mini kalkulyator</h3><p>Hisob-kitoblar uchun yordamchi.</p></div>
+  <span class="shop-price">80 🪙</span>
+  <button class="buy-btn" onclick="buyItem('Mini kalkulyator',80)">Sotib olish</button>
+</div>
+</section>
+
+
+<!-- ================= ADMIN PANEL ================= -->
+
+<section id="admin" class="page">
+
+<div class="card">
+
+    <div class="section-title">
+        <h2>🔐 Mega Admin Panel</h2>
+        <p>Savollar, natijalar va tanga tizimini boshqaring.</p>
+    </div>
+
+    <div id="adminLogin">
+
+        <label>👤 Admin login</label>
+        <input id="adminUsername" type="text" placeholder="Admin login">
+
+        <label>🔑 Admin parol</label>
+        <input id="adminPassword" type="password" placeholder="Admin parol">
+
+        <button class="main-btn" onclick="adminLogin()">
+            🔓 Admin panelga kirish
+        </button>
+
+        <p style="margin-top:15px;color:#64748b">
+            Demo: <b>admin</b> / <b>12345</b>
+        </p>
+
+    </div>
+
+    <div id="adminPanelContent" class="hidden">
+
+        <div class="admin-grid">
+
+            <div class="admin-card">
+                <h3>📚 Savollar</h3>
+                <p><b id="adminQuestionCount">0</b> ta savol</p>
+            </div>
+
+            <div class="admin-card">
+                <h3>📊 Natijalar</h3>
+                <p><b id="adminResultCount">0</b> ta natija</p>
+            </div>
+
+            <div class="admin-card">
+                <h3>🪙 Test bonusi</h3>
+                <p>Har tugallangan test: <b>+3 tanga</b></p>
+            </div>
+
+        </div>
+
+        <h3 style="margin-top:30px">➕ Yangi savol qo‘shish</h3>
+
+        <label>Fan</label>
+        <select id="adminSubject">
+            <option value="matematika">Matematika</option>
+            <option value="ona_tili">Ona tili</option>
+            <option value="ingliz_tili">Ingliz tili</option>
+            <option value="fizika">Fizika</option>
+            <option value="tarix">Tarix</option>
+            <option value="biologiya">Biologiya</option>
+            <option value="geografiya">Geografiya</option>
+            <option value="informatika">Informatika</option>
+            <option value="kimyo">Kimyo</option>
+            <option value="adabiyot">Adabiyot</option>
+            <option value="huquq">Huquq</option>
+            <option value="iqtisod">Iqtisod</option>
+        </select>
+
+        <label>Savol</label>
+        <textarea id="newQuestion" rows="3" placeholder="Savolni yozing..."></textarea>
+
+        <label>A-javob</label>
+        <input id="answerA" placeholder="A javob">
+
+        <label>B-javob</label>
+        <input id="answerB" placeholder="B javob">
+
+        <label>C-javob</label>
+        <input id="answerC" placeholder="C javob">
+
+        <label>D-javob</label>
+        <input id="answerD" placeholder="D javob">
+
+        <label>To‘g‘ri javob</label>
+        <select id="correctAnswer">
+            <option value="0">A</option>
+            <option value="1">B</option>
+            <option value="2">C</option>
+            <option value="3">D</option>
+        </select>
+
+        <button class="main-btn" onclick="addQuestion()">
+            ➕ Savol qo‘shish
+        </button>
+
+        <h3 style="margin-top:30px">📚 Savollar ro‘yxati</h3>
+        <div id="adminQuestions"></div>
+
+        <h3 style="margin-top:30px">👥 Foydalanuvchi natijalari</h3>
+        <div id="adminResults"></div>
+
+        <button class="main-btn" onclick="adminLogout()">
+            🚪 Admin paneldan chiqish
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<footer>
+
+🎓 Bilimdon Online Test © 2026
+
+</footer>
+
+
+
+<script>
+
+
+/* ================= SAVOLLAR ================= */
+
+const questions = [
+
+/* MATEMATIKA */
+
+{
+subject:"matematika",
+question:"25 + 17 nechiga teng?",
+answers:["40","42","44","45"],
+correct:1
+},
+
+{
+subject:"matematika",
+question:"72 ÷ 8 nechiga teng?",
+answers:["7","8","9","10"],
+correct:2
+},
+
+{
+subject:"matematika",
+question:"9 × 6 nechiga teng?",
+answers:["45","54","63","56"],
+correct:1
+},
+
+{
+subject:"matematika",
+question:"100 - 37 nechiga teng?",
+answers:["63","67","73","57"],
+correct:0
+},
+
+{
+subject:"matematika",
+question:"15² nechiga teng?",
+answers:["125","200","225","250"],
+correct:2
+},
+
+{
+subject:"matematika",
+question:"50 ning 20 foizi nechiga teng?",
+answers:["5","10","15","20"],
+correct:1
+},
+
+
+/* ONA TILI */
+
+{
+subject:"ona_tili",
+question:"Daraxt qaysi so‘z turkumi?",
+answers:["Ot","Sifat","Fe’l","Son"],
+correct:0
+},
+
+{
+subject:"ona_tili",
+question:"Chiroyli qaysi so‘z turkumi?",
+answers:["Ot","Sifat","Fe’l","Son"],
+correct:1
+},
+
+{
+subject:"ona_tili",
+question:"Yozdi qaysi so‘z turkumi?",
+answers:["Ot","Sifat","Fe’l","Son"],
+correct:2
+},
+
+{
+subject:"ona_tili",
+question:"Darak gap oxirida qaysi belgi qo‘yiladi?",
+answers:["?","!",";", "."],
+correct:3
+},
+
+
+/* INGLIZ TILI */
+
+{
+subject:"ingliz_tili",
+question:"Apple so‘zining tarjimasi?",
+answers:["Olma","Nok","Anor","Uzum"],
+correct:0
+},
+
+{
+subject:"ingliz_tili",
+question:"Book so‘zining tarjimasi?",
+answers:["Qalam","Kitob","Daftar","Stol"],
+correct:1
+},
+
+{
+subject:"ingliz_tili",
+question:"Hello nimani anglatadi?",
+answers:["Xayr","Rahmat","Salom","Iltimos"],
+correct:2
+},
+
+{
+subject:"ingliz_tili",
+question:"Teacher nimani anglatadi?",
+answers:["O‘quvchi","Shifokor","O‘qituvchi","Haydovchi"],
+correct:2
+},
+
+
+/* FIZIKA */
+
+{
+subject:"fizika",
+question:"Kuchning o‘lchov birligi?",
+answers:["Joul","Nyuton","Vatt","Volt"],
+correct:1
+},
+
+{
+subject:"fizika",
+question:"Tezlik formulasi?",
+answers:["v=s/t","F=ma","P=F/S","A=Fs"],
+correct:0
+},
+
+{
+subject:"fizika",
+question:"Elektr toki kuchining birligi?",
+answers:["Volt","Om","Amper","Vatt"],
+correct:2
+},
+
+
+/* TARIX */
+
+{
+subject:"tarix",
+question:"O‘zbekiston mustaqilligi qachon e’lon qilingan?",
+answers:["1990-yil","1991-yil","1992-yil","1993-yil"],
+correct:1
+},
+
+{
+subject:"tarix",
+question:"Amir Temur qachon tug‘ilgan?",
+answers:["1336-yil","1405-yil","1220-yil","1450-yil"],
+correct:0
+},
+
+{
+subject:"tarix",
+question:"O‘zbekiston Konstitutsiyasi qachon qabul qilingan?",
+answers:["1991-yil","1992-yil 8-dekabr","1993-yil","1995-yil"],
+correct:1
+},
+
+
+/* BIOLOGIYA */
+
+{
+subject:"biologiya",
+question:"Insonning asosiy nafas olish organi?",
+answers:["Yurak","O‘pka","Jigar","Buyrak"],
+correct:1
+},
+
+{
+subject:"biologiya",
+question:"Qonni haydaydigan organ?",
+answers:["O‘pka","Yurak","Miya","Oshqozon"],
+correct:1
+},
+
+{
+subject:"biologiya",
+question:"Fotosintez qaysi organizmlarda amalga oshadi?",
+answers:["O‘simliklarda","Toshlarda","Metallarda","Suvda"],
+correct:0
+},
+
+
+/* GEOGRAFIYA */
+
+{
+subject:"geografiya",
+question:"Dunyodagi eng katta okean?",
+answers:["Atlantika","Tinch","Hind","Shimoliy Muz"],
+correct:1
+},
+
+{
+subject:"geografiya",
+question:"Yerning tabiiy yo‘ldoshi?",
+answers:["Quyosh","Mars","Oy","Venera"],
+correct:2
+},
+
+{
+subject:"geografiya",
+question:"Dunyodagi eng baland tog‘?",
+answers:["Everest","Elbrus","Pomir","Alp"],
+correct:0
+},
+
+
+/* INFORMATIKA */
+
+{
+subject:"informatika",
+question:"HTML nima uchun ishlatiladi?",
+answers:["Web sahifa yaratish","Video montaj","Musiqa","Rasm"],
+correct:0
+},
+
+{
+subject:"informatika",
+question:"CSS nima uchun kerak?",
+answers:["Web dizayn","Video","Audio","O‘yin"],
+correct:0
+},
+
+{
+subject:"informatika",
+question:"JavaScript nima?",
+answers:["Dasturlash tili","Brauzer","Monitor","Printer"],
+correct:0
+},
+
+
+/* KIMYO */
+
+{
+subject:"kimyo",
+question:"Suvning formulasi?",
+answers:["CO2","H2O","O2","NaCl"],
+correct:1
+},
+
+{
+subject:"kimyo",
+question:"Kislorodning belgisi?",
+answers:["H","C","O","N"],
+correct:2
+},
+
+{
+subject:"kimyo",
+question:"Osh tuzining formulasi?",
+answers:["H2O","CO2","NaCl","O2"],
+correct:2
+},
+
+
+/* ADABIYOT */
+
+{
+subject:"adabiyot",
+question:"Alisher Navoiy kim bo‘lgan?",
+answers:[
+"Shoir va mutafakkir",
+"Sportchi",
+"Rassom",
+"Harbiy"
+],
+correct:0
+},
+
+{
+subject:"adabiyot",
+question:"Xamsa asari kimga tegishli?",
+answers:[
+"Alisher Navoiy",
+"Amir Temur",
+"Bobur",
+"Beruniy"
+],
+correct:0
+},
+
+
+/* HUQUQ */
+
+{
+subject:"huquq",
+question:"O‘zbekiston Konstitutsiyasi qachon qabul qilingan?",
+answers:[
+"1991-yil",
+"1992-yil 8-dekabr",
+"1993-yil",
+"1995-yil"
+],
+correct:1
+},
+
+{
+subject:"huquq",
+question:"Qonun nima?",
+answers:[
+"Majburiy huquqiy norma",
+"Oddiy maslahat",
+"Hikoya",
+"She’r"
+],
+correct:0
+},
+
+
+/* IQTISOD */
+
+{
+subject:"iqtisod",
+question:"Pulning asosiy vazifalaridan biri?",
+answers:[
+"Qiymat o‘lchovi",
+"Sport",
+"O‘yin",
+"Transport"
+],
+correct:0
+},
+
+{
+subject:"iqtisod",
+question:"Talab va taklif nimani belgilashda muhim?",
+answers:[
+"Narxni",
+"Ob-havoni",
+"Haroratni",
+"Vaqtni"
+],
+correct:0
+}
+
+];
+
+
+/* ================= O'ZGARUVCHILAR ================= */
+
+let selectedSubject="";
+
+let testQuestions=[];
+
+let currentQuestion=0;
+
+let score=0;
+
+let selectedAnswer=null;
+
+let timeLeft=300;
+
+let timer;
+
+
+/* ================= SAHIFA ALMASHTIRISH ================= */
+
+function showPage(page){
+
+    document
+    .querySelectorAll(".page")
+    .forEach(p=>{
+        p.classList.remove("active");
+    });
+
+    document
+    .getElementById(page)
+    .classList.add("active");
+
+    if(page==="results"){
+        showResults();
+    }
+
+    if(page==="admin"){
+        updateCoins();
+        showAdminQuestions();
+        showAdminResults();
+    }
+
+    if(page==="shop"){
+        updateCoins();
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ================= KIRISH ================= */
+
+function goToSubjects(){
+
+    const name=
+    document
+    .getElementById("userName")
+    .value
+    .trim();
+
+    if(!name){
+
+        alert(
+            "Iltimos, ismingizni kiriting!"
+        );
+
+        return;
+    }
+
+    showPage("subjects");
+
+}
+
+
+/* ================= RANDOM ================= */
+
+function shuffle(array){
+
+    return [...array]
+    .sort(
+        ()=>Math.random()-0.5
+    );
+
+}
+
+
+/* ================= TEST BOSHLASH ================= */
+
+function startSubject(subject){
+
+    const name=
+    document
+    .getElementById("userName")
+    .value
+    .trim();
+
+    if(!name){
+
+        showPage("home");
+
+        alert(
+            "Avval ismingizni kiriting!"
+        );
+
+        return;
+    }
+
+
+    selectedSubject=subject;
+
+
+    testQuestions=
+    questions
+    .filter(
+        q=>q.subject===subject
+    );
+
+
+    testQuestions=
+    shuffle(testQuestions);
+
+
+    /*
+       Agar fan bo‘yicha 10 ta savol
+       bo‘lmasa, mavjud savollar
+       chiqadi.
+    */
+
+    testQuestions=
+    testQuestions.slice(0,10);
+
+
+    currentQuestion=0;
+
+    score=0;
+
+    selectedAnswer=null;
+    testFinished=false;
+
+
+    showPage("test");
+
+    startTimer();
+
+    showQuestion();
+
+}
+
+
+/* ================= SAVOL ================= */
+
+function showQuestion(){
+
+    if(
+        currentQuestion>=
+        testQuestions.length
+    ){
+
+        finishTest();
+
+        return;
+    }
+
+
+    selectedAnswer=null;
+
+
+    const q=
+    testQuestions[currentQuestion];
+
+
+    document
+    .getElementById("questionNumber")
+    .textContent=
+    `Savol: ${
+        currentQuestion+1
+    }/${testQuestions.length}`;
+
+
+    document
+    .getElementById("questionText")
+    .textContent=
+    q.question;
+
+
+    document
+    .getElementById("testSubjectTitle")
+    .textContent=
+    "📚 "+
+    getSubjectName(
+        selectedSubject
+    );
+
+
+    const box=
+    document
+    .getElementById("answers");
+
+
+    box.innerHTML="";
+
+
+    q.answers.forEach(
+        (answer,index)=>{
+
+            const button=
+            document.createElement(
+                "button"
+            );
+
+            button.className="answer";
+
+            button.textContent=
+            answer;
+
+            button.onclick=
+            ()=>{
+                selectAnswer(
+                    index,
+                    button
+                );
+            };
+
+            box.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* ================= JAVOB ================= */
+
+function selectAnswer(
+    index,
+    button
+){
+
+    selectedAnswer=index;
+
+
+    document
+    .querySelectorAll(".answer")
+    .forEach(
+        b=>
+        b.classList
+        .remove("selected")
+    );
+
+
+    button.classList.add(
+        "selected"
+    );
+
+}
+
+
+/* ================= KEYINGI ================= */
+
+function nextQuestion(){
+
+    if(
+        selectedAnswer===null
+    ){
+
+        alert(
+            "Javobni tanlang!"
+        );
+
+        return;
+    }
+
+
+    const q=
+    testQuestions[
+        currentQuestion
+    ];
+
+
+    if(
+        selectedAnswer===
+        q.correct
+    ){
+
+        score++;
+
+    }
+
+
+    currentQuestion++;
+
+
+    showQuestion();
+
+}
+
+
+/* ================= TIMER ================= */
+
+function startTimer(){
+
+    clearInterval(timer);
+
+    timeLeft=300;
+
+
+    timer=setInterval(()=>{
+
+        const minutes=
+        Math.floor(
+            timeLeft/60
+        );
+
+        const seconds=
+        timeLeft%60;
+
+
+        document
+        .getElementById("timer")
+        .textContent=
+        `⏱ ${
+            String(minutes)
+            .padStart(2,"0")
+        }:${
+            String(seconds)
+            .padStart(2,"0")
+        }`;
+
+
+        timeLeft--;
+
+
+        if(timeLeft<0){
+
+            finishTest();
+
+        }
+
+    },1000);
+
+}
+
+
+/* ================= TEST YAKUNI ================= */
+
+function finishTest(){
+
+    clearInterval(timer);
+
+
+    const total=
+    testQuestions.length;
+
+
+    const percent=
+    Math.round(
+        score/total*100
+    );
+
+    // Har bir tugallangan test uchun +3 tanga.
+    coins += 3;
+    saveCoins();
+    updateCoins();
+
+    alert(
+        "🎉 Test tugadi!\n\n" +
+        "🪙 Sizga +3 tanga berildi!\n" +
+        "💰 Jami: " + coins + " tanga"
+    );
+
+
+    const name=
+    document
+    .getElementById("userName")
+    .value;
+
+
+    const className=
+    document
+    .getElementById("userClass")
+    .value;
+
+
+    document
+    .getElementById("resultName")
+    .textContent=
+    `👤 ${name} | 🎒 ${className}-sinf`;
+
+
+    document
+    .getElementById("bigScore")
+    .textContent=
+    `${score}/${total}`;
+
+
+    let message="";
+
+
+    if(percent>=80){
+
+        message=
+        "🏆 Ajoyib! Siz bu fanni juda yaxshi bilasiz!";
+
+    }
+
+    else if(percent>=60){
+
+        message=
+        "👍 Yaxshi natija!";
+
+    }
+
+    else{
+
+        message=
+        "📚 Bu fanni ko‘proq takrorlash kerak.";
+
+    }
+
+
+    document
+    .getElementById("resultMessage")
+    .textContent=
+    `${message} Natija: ${percent}%`;
+
+
+    saveResult(
+        name,
+        className,
+        selectedSubject,
+        score,
+        total,
+        percent
+    );
+
+
+    showPage("result");
+
+}
+
+
+/* ================= FAN NOMI ================= */
+
+function getSubjectName(subject){
+
+    const names={
+
+        matematika:"Matematika",
+
+        ona_tili:"Ona tili",
+
+        ingliz_tili:"Ingliz tili",
+
+        fizika:"Fizika",
+
+        tarix:"Tarix",
+
+        biologiya:"Biologiya",
+
+        geografiya:"Geografiya",
+
+        informatika:"Informatika",
+
+        kimyo:"Kimyo",
+
+        adabiyot:"Adabiyot",
+
+        huquq:"Huquq",
+
+        iqtisod:"Iqtisod"
+
+    };
+
+
+    return names[subject]||subject;
+
+}
+
+
+/* ================= NATIJANI SAQLASH ================= */
+
+function saveResult(
+    name,
+    className,
+    subject,
+    score,
+    total,
+    percent
+){
+
+    let results=
+    JSON.parse(
+        localStorage
+        .getItem(
+            "bilimdonResults"
+        )
+    )||[];
+
+
+    results.push({
+
+        name:name,
+
+        className:className,
+
+        subject:subject,
+
+        score:score,
+
+        total:total,
+
+        percent:percent,
+
+        date:
+        new Date()
+        .toLocaleString(
+            "uz-UZ"
+        )
+
+    });
+
+
+    localStorage
+    .setItem(
+        "bilimdonResults",
+        JSON.stringify(results)
+    );
+
+}
+
+
+/* ================= NATIJALAR ================= */
+
+function showResults(){
+
+    const box=
+    document
+    .getElementById(
+        "resultsList"
+    );
+
+
+    let results=
+    JSON.parse(
+        localStorage
+        .getItem(
+            "bilimdonResults"
+        )
+    )||[];
+
+
+    if(
+        results.length===0
+    ){
+
+        box.innerHTML=`
+
+        <div class="result-item">
+
+            <h3>
+            📭 Hozircha natija yo‘q
+            </h3>
+
+            <p>
+            Test ishlab ko‘ring.
+            </p>
+
+        </div>
+
+        `;
+
+        return;
+    }
+
+
+    let best=
+    [...results]
+    .sort(
+        (a,b)=>
+        b.percent-a.percent
+    )[0];
+
+
+    let worst=
+    [...results]
+    .sort(
+        (a,b)=>
+        a.percent-b.percent
+    )[0];
+
+
+    let html=`
+
+    <div class="result-item good">
+
+        <h3>
+        🏆 Eng yaxshi fan
+        </h3>
+
+        <p>
+        ${
+            getSubjectName(
+                best.subject
+            )
+        }
+        —
+        ${best.percent}%
+        </p>
+
+    </div>
+
+
+    <div class="result-item bad">
+
+        <h3>
+        📚 Ko‘proq ishlash kerak
+        </h3>
+
+        <p>
+        ${
+            getSubjectName(
+                worst.subject
+            )
+        }
+        —
+        ${worst.percent}%
+        </p>
+
+    </div>
+
+    <hr
+    style="
+    margin:25px 0;
+    border:none;
+    border-top:1px solid #ddd;
+    "
+    >
+
+    `;
+
+
+    results
+    .slice()
+    .reverse()
+    .forEach(
+        result=>{
+
+            let cls=
+            result.percent>=60
+            ?"good"
+            :"bad";
+
+
+            html+=`
+
+            <div
+            class="result-item ${cls}"
+            >
+
+                <h3>
+                ${
+                    getSubjectName(
+                        result.subject
+                    )
+                }
+                </h3>
+
+                <p>
+                👤 ${result.name}
+                |
+                🎒 ${result.className}-sinf
+                </p>
+
+                <p>
+                ✅ ${result.score}/${result.total}
+                |
+                📊 ${result.percent}%
+                </p>
+
+                <p>
+                🕒 ${result.date}
+                </p>
+
+            </div>
+
+            `;
+
+        }
+    );
+
+
+    box.innerHTML=html;
+
+}
+
+
+/* ================= TOZALASH ================= */
+
+function clearResults(){
+
+    if(
+        confirm(
+            "Barcha natijalarni o‘chirmoqchimisiz?"
+        )
+    ){
+
+        localStorage
+        .removeItem(
+            "bilimdonResults"
+        );
+
+        showResults();
+
+    }
+
+}
+
+
+
+/* ================= TANGA TIZIMI ================= */
+
+let coins = Number(localStorage.getItem("bilimdonCoins")) || 0;
+
+function saveCoins(){
+    localStorage.setItem("bilimdonCoins", String(coins));
+}
+
+function updateCoins(){
+
+    const coinCount = document.getElementById("coinCount");
+    const shopCoinCount = document.getElementById("shopCoinCount");
+
+    if(coinCount) coinCount.textContent = coins;
+    if(shopCoinCount) shopCoinCount.textContent = coins;
+
+    saveCoins();
+}
+
+updateCoins();
+
+
+/* ================= SAVOLLARNI SAQLASH ================= */
+
+const savedQuestions =
+    JSON.parse(localStorage.getItem("bilimdonQuestions"));
+
+if(Array.isArray(savedQuestions)){
+
+    questions.length = 0;
+
+    savedQuestions.forEach(q=>{
+        questions.push(q);
+    });
+
+}
+
+
+/* ================= ADMIN ================= */
+
+function openAdmin(){
+    showPage("admin");
+}
+
+function adminLogin(){
+
+    const username =
+        document.getElementById("adminUsername").value.trim();
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    if(username === "admin" && password === "12345"){
+
+        document
+        .getElementById("adminLogin")
+        .classList.add("hidden");
+
+        document
+        .getElementById("adminPanelContent")
+        .classList.remove("hidden");
+
+        showAdminQuestions();
+        showAdminResults();
+
+    }else{
+
+        alert("❌ Admin login yoki parol noto‘g‘ri!");
+
+    }
+}
+
+function adminLogout(){
+
+    document
+    .getElementById("adminLogin")
+    .classList.remove("hidden");
+
+    document
+    .getElementById("adminPanelContent")
+    .classList.add("hidden");
+
+    document.getElementById("adminUsername").value="";
+    document.getElementById("adminPassword").value="";
+
+}
+
+
+function addQuestion(){
+
+    const subject =
+        document.getElementById("adminSubject").value;
+
+    const question =
+        document.getElementById("newQuestion").value.trim();
+
+    const answers = [
+
+        document.getElementById("answerA").value.trim(),
+        document.getElementById("answerB").value.trim(),
+        document.getElementById("answerC").value.trim(),
+        document.getElementById("answerD").value.trim()
+
+    ];
+
+    const correct =
+        Number(document.getElementById("correctAnswer").value);
+
+    if(!question || answers.some(a=>!a)){
+
+        alert("❌ Barcha maydonlarni to‘ldiring!");
+
+        return;
+    }
+
+    questions.push({
+        subject,
+        question,
+        answers,
+        correct
+    });
+
+    localStorage.setItem(
+        "bilimdonQuestions",
+        JSON.stringify(questions)
+    );
+
+    document.getElementById("newQuestion").value="";
+    document.getElementById("answerA").value="";
+    document.getElementById("answerB").value="";
+    document.getElementById("answerC").value="";
+    document.getElementById("answerD").value="";
+
+    showAdminQuestions();
+
+    alert("✅ Savol qo‘shildi!");
+
+}
+
+
+function deleteQuestion(index){
+
+    if(!confirm("Bu savolni o‘chirmoqchimisiz?")){
+        return;
+    }
+
+    questions.splice(index,1);
+
+    localStorage.setItem(
+        "bilimdonQuestions",
+        JSON.stringify(questions)
+    );
+
+    showAdminQuestions();
+
+}
+
+
+function showAdminQuestions(){
+
+    const box =
+        document.getElementById("adminQuestions");
+
+    const count =
+        document.getElementById("adminQuestionCount");
+
+    if(count) count.textContent=questions.length;
+
+    if(!box) return;
+
+    let html="";
+
+    questions.forEach((q,index)=>{
+
+        html += `
+        <div class="result-item">
+
+            <h3>
+                ${index+1}. ${getSubjectName(q.subject)}
+            </h3>
+
+            <p style="color:#000;font-weight:bold;margin:10px 0">
+                ${escapeHTML(q.question)}
+            </p>
+
+            <p>A) ${escapeHTML(q.answers[0])}</p>
+            <p>B) ${escapeHTML(q.answers[1])}</p>
+            <p>C) ${escapeHTML(q.answers[2])}</p>
+            <p>D) ${escapeHTML(q.answers[3])}</p>
+
+            <button
+                class="small-btn danger-btn"
+                onclick="deleteQuestion(${index})">
+                🗑️ O‘chirish
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    box.innerHTML =
+        html ||
+        `<div class="result-item">
+            <h3>📭 Savol yo‘q</h3>
+            <p>Yuqoridagi forma orqali savol qo‘shing.</p>
+        </div>`;
+
+}
+
+
+function showAdminResults(){
+
+    const box =
+        document.getElementById("adminResults");
+
+    const count =
+        document.getElementById("adminResultCount");
+
+    const results =
+        JSON.parse(
+            localStorage.getItem("bilimdonResults")
+        ) || [];
+
+    if(count) count.textContent=results.length;
+
+    if(!box) return;
+
+    if(results.length===0){
+
+        box.innerHTML=
+        `<div class="result-item">
+            <h3>📭 Natija yo‘q</h3>
+        </div>`;
+
+        return;
+    }
+
+    let html=`
+    <div style="overflow:auto">
+    <table class="admin-table">
+
+        <thead>
+            <tr>
+                <th>Ism</th>
+                <th>Sinf</th>
+                <th>Fan</th>
+                <th>Ball</th>
+                <th>Foiz</th>
+                <th>Sana</th>
+            </tr>
+        </thead>
+
+        <tbody>
+    `;
+
+    results.slice().reverse().forEach(r=>{
+
+        html += `
+        <tr>
+            <td>${escapeHTML(r.name)}</td>
+            <td>${escapeHTML(String(r.className))}</td>
+            <td>${getSubjectName(r.subject)}</td>
+            <td>${r.score}/${r.total}</td>
+            <td>${r.percent}%</td>
+            <td>${escapeHTML(r.date)}</td>
+        </tr>
+        `;
+
+    });
+
+    html += `
+        </tbody>
+    </table>
+    </div>
+    `;
+
+    box.innerHTML=html;
+
+}
+
+
+/* ================= DO‘KON ================= */
+
+function buyItem(name, price, bonus){
+
+    if(coins < price){
+
+        alert(
+            "❌ Tanga yetarli emas!\\n\\n" +
+            "Kerak: " + price + " 🪙\\n" +
+            "Sizda: " + coins + " 🪙"
+        );
+
+        return;
+    }
+
+    coins -= price;
+    coins += bonus;
+
+    saveCoins();
+    updateCoins();
+
+    alert(
+        "✅ " + name + " sotib olindi!\\n\\n" +
+        "💰 Balans: " + coins + " 🪙"
+    );
+
+}
+
+
+/* ================= XAVFSIZ MATN ================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* ================= ALOQA ================= */
+
+function sendMessage(){
+
+    alert(
+        "Xabaringiz qabul qilindi! Rahmat 😊"
+    );
+
+}
+
+</script>
+
+
+<button id="bdTopBtn" aria-label="Yuqoriga">↑</button>
+<script>
+(function(){
+  const b=document.getElementById('bdTopBtn');
+  window.addEventListener('scroll',()=>b.classList.toggle('show',window.scrollY>400));
+  b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+})();
+</script>
+
+<script>
+/* ===== 30 BUYURTMA -> 1+1 AKSIYA ===== */
+(function(){
+  const ORDER_KEY = 'bilimdonShopOrders';
+  const PROMO_KEY = 'bilimdonOnePlusOne';
+
+  function getOrders(){
+    return Number(localStorage.getItem(ORDER_KEY) || 0);
+  }
+  function setOrders(v){
+    localStorage.setItem(ORDER_KEY, String(v));
+    updatePromo();
+  }
+  function updatePromo(){
+    const n = getOrders();
+    const count = document.getElementById('orderCount');
+    const bar = document.getElementById('orderProgress');
+    const status = document.getElementById('promoStatus');
+    if(count) count.textContent = n;
+    if(bar) bar.style.width = Math.min(100,(n%30)/30*100) + '%';
+    if(status){
+      if(n > 0 && n % 30 === 0){
+        localStorage.setItem(PROMO_KEY,'1');
+        status.textContent = '🎉 1+1 AKSIYA FAOL! Keyingi xaridda 1 ta qo‘shimcha mahsulot bonus.';
+      }else{
+        const left = 30 - (n%30);
+        status.textContent = 'Yana ' + left + ' ta buyurtmadan keyin 1+1 aksiya.';
+      }
+    }
+  }
+
+  // Wrap the existing buyItem function so existing shop items also count.
+  const oldBuyItem = window.buyItem;
+  window.buyItem = function(name, price){
+    if(typeof oldBuyItem === 'function'){
+      const before = Number(localStorage.getItem('bilimdonCoins') || 0);
+      oldBuyItem(name, price);
+      const after = Number(localStorage.getItem('bilimdonCoins') || 0);
+      // Count only a successful purchase (coins decreased).
+      if(after < before){
+        let orders = getOrders() + 1;
+        setOrders(orders);
+        if(orders % 30 === 0){
+          localStorage.setItem(PROMO_KEY,'1');
+          alert('🎉 Tabriklaymiz! 30 ta buyurtma bajarildi. 1+1 AKSIYA faollashdi!');
+        }
+      }
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded',updatePromo);
+  updatePromo();
+})();
+</script>
+
+
+<div class="theme-picker">
+  <button class="theme-toggle" onclick="toggleThemeMenu()">🎨 Ranglar</button>
+  <div class="theme-menu" id="themeMenu">
+    <button class="theme-option" onclick="setTheme('blue')"><span class="swatch" style="background:#1769d1"></span>🔵 Ko‘k Premium</button>
+    <button class="theme-option" onclick="setTheme('purple')"><span class="swatch" style="background:#7c3aed"></span>🟣 Binafsha Premium</button>
+    <button class="theme-option" onclick="setTheme('green')"><span class="swatch" style="background:#059669"></span>🟢 Emerald Yashil</button>
+    <button class="theme-option" onclick="setTheme('orange')"><span class="swatch" style="background:#f97316"></span>🟠 Sariq-to‘q sariq</button>
+    <button class="theme-option" onclick="setTheme('turquoise')"><span class="swatch" style="background:#0891b2"></span>🩵 Turkuaz</button>
+    <button class="theme-option" onclick="setTheme('gold')"><span class="swatch" style="background:#b8860b"></span>🖤 Qora + Oltin</button>
+  </div>
+</div>
+
+<script>
+const themes = {
+  blue:{bg:'#eaf4ff',bg2:'#d7ebff',card:'#ffffff',nav:'#082f63',text:'#10233f',accent:'#1769d1',accent2:'#0b4ea2',border:'#b9d7f5'},
+  purple:{bg:'#f2eaff',bg2:'#e5d7ff',card:'#ffffff',nav:'#35126b',text:'#25143f',accent:'#7c3aed',accent2:'#5b21b6',border:'#d5bff7'},
+  green:{bg:'#e8fff5',bg2:'#d1fae5',card:'#ffffff',nav:'#064e3b',text:'#12352b',accent:'#059669',accent2:'#047857',border:'#a7e8cd'},
+  orange:{bg:'#fff4e8',bg2:'#ffe0bf',card:'#ffffff',nav:'#7c2d12',text:'#3d2113',accent:'#f97316',accent2:'#ea580c',border:'#f7c89f'},
+  turquoise:{bg:'#e7fbff',bg2:'#c9f3fa',card:'#ffffff',nav:'#164e63',text:'#12333b',accent:'#0891b2',accent2:'#0e7490',border:'#a7dfe8'},
+  gold:{bg:'#101114',bg2:'#202226',card:'#17191d',nav:'#050506',text:'#f5e7b2',accent:'#b8860b',accent2:'#d4a017',border:'#55451b'}
+};
+function setTheme(name){
+  const t=themes[name] || themes.blue;
+  const root=document.documentElement;
+  Object.entries(t).forEach(([k,v])=>root.style.setProperty('--theme-'+k,v));
+  localStorage.setItem('bilimdonTheme',name);
+  document.getElementById('themeMenu').classList.remove('open');
+}
+function toggleThemeMenu(){
+  document.getElementById('themeMenu').classList.toggle('open');
+}
+(function(){
+  const saved=localStorage.getItem('bilimdonTheme') || 'blue';
+  setTheme(saved);
+})();
+</script>
+
+
+<div id="blackGoldBadge" style="
+position:fixed;left:18px;bottom:18px;z-index:9998;
+padding:9px 14px;border:1px solid #5b4a1a;border-radius:12px;
+background:rgba(8,8,9,.92);color:#c9c9c9;font-weight:700;
+box-shadow:0 8px 24px rgba(0,0,0,.35);font-size:13px;">
+  <span style="color:#d9b43a;">●</span> Qora + Oltin
+  <span style="color:#bfc0c2;">• Kumush interfeys</span>
+</div>
+
+</body>
+</html>
